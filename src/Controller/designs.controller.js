@@ -1,15 +1,9 @@
 import { getDesigns, addDesignPack } from "../Service/designs.service.js";
 
-export const getAllDesigns = (req,res) =>{
-    const result = getDesigns();
-    res.json({status:"success", data:result});
+export const getAllDesigns = async (req,res) =>{
+    const results = await getDesigns();
+    res.json({status:"success", payLoad:results});
 }
-
-// export const getDesignsByCat = async (req,res) =>{
-//     const cat = req.body.cat
-//     const result = await getdesigns(cat);
-//     res
-// }
 
 export const addDesignCapture = async (req,res) =>{
     try {
