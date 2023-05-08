@@ -21,6 +21,6 @@ app.use(express.static(__dirname + "/../../public"));
 app.use("/api/designs", designsRouter);
 
 //connections port
-app.listen(port,()=>console.log(`Server listening on port ${port}`))
+app.listen(port,()=>console.log(`Server listening on port ${port}`));
 //connection mongo
 const dbInstance = ConnectionDb.getInstance();
