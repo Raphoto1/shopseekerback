@@ -1,12 +1,13 @@
 import { Router } from "express";
-import { createCartCapture, deleteCartCapture, getAllCartsCapture, getCartByIdCapture } from "../Controller/cart.controller.js";
+import { addDesignToCartCapture, createCartCapture, deleteCartCapture, getAllCartsCapture, getCartByIdCapture } from "../Controller/cart.controller.js";
 
 const cartRouter = Router();
 
 //rutas cart
 cartRouter.get("/", getAllCartsCapture);
-cartRouter.get("/:id", getCartByIdCapture);
+cartRouter.get("/:cartId", getCartByIdCapture);
 cartRouter.post("/", createCartCapture);
-cartRouter.delete("/id", deleteCartCapture);
+cartRouter.delete("/:cartId", deleteCartCapture);
+cartRouter.put("/", addDesignToCartCapture);
 
 export {cartRouter};

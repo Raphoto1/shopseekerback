@@ -16,3 +16,8 @@ export const deleteCart = (cartId) =>{
     const cartToDelete = cartManager.deleteCart(cartId);
     return cartToDelete;
 }
+
+export const addDesignToCart = (cartId, desId, quantity) =>{
+    const designToAdd = cartManager.addDesignToCart(cartId, desId, quantity);
+    return designToAdd;
+}
