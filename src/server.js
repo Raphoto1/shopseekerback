@@ -7,6 +7,7 @@ import { options } from "./config/config.js";
 import { ConnectionDb } from "./Dao/Mongo/connectionDb.js";
 import { __dirname } from "./utils/utils.js";
 import { designsRouter } from "./Routes/designs.routes.js";
+import { cartRouter } from "./Routes/cart.routes.js";
 
 //express
 const app = express();
@@ -19,6 +20,7 @@ app.use(express.static(__dirname + "/../../public"));
 
 //rutas
 app.use("/api/designs", designsRouter);
+app.use("/api/cart", cartRouter);
 
 //connections port
 app.listen(port,()=>console.log(`Server listening on port ${port}`));

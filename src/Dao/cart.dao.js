@@ -13,35 +13,38 @@ class CartMongoDao {
     }
   }
   //borrar carrito
-async deleteCart(cartId){
- try {
-    const chkCart = await this.getCart(cartId)
-    if (chkCart) {
+  async deleteCart(cartId) {
+    try {
+      const chkCart = await this.getCart(cartId);
+      if (chkCart) {
         const cartToDelete = await cartModel.findByIdAndDelete(cartId);
         console.log("carrito eliminado");
         return cartToDelete;
-    } else {
-        return "cart not found"
-    }
- } catch (error) {
-    return error
- }
-}
-  //get carrito by Id y todos los carritos
-async getCart(cartId){
-    try {
-        if (cartId) {
-            const oneCart = await cartModel.find({_id: `${cartId}`})
-            .populate("designs.design").lean();
-            return oneCart;
-        } else {
-            const allCarts = await cartModel.find();
-            return allCarts;
-        }
-        
+      } else {
+        return "cart not found";
+      }
     } catch (error) {
-        return error
+      return error;
     }
-}
+  }
+  //get carrito by Id y todos los carritos
+  async getCart(cartId) {
+    try {
+      if (cartId) {
+        const oneCart = await cartModel
+          .find({ _id: `${cartId}` })
+          .populate("designs.design")
+          .lean();
+        return oneCart;
+      } else {
+        const allCarts = await cartModel.find();
+        return allCarts;
+      }
+    } catch (error) {
+      return error;
+    }
+  }
   //update cart
 }
+
+export default CartMongoDao;
