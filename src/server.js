@@ -13,7 +13,7 @@ import { cartRouter } from "./Routes/cart.routes.js";
 const app = express();
 const port = options.server.port;
 
-//midles
+//midles de Node
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/../../public"));

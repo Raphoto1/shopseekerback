@@ -2,6 +2,7 @@ import cartModel from "./Mongo/models/cart.model.js";
 
 class CartMongoDao {
   constructor() {}
+
   //crear carrito
   async createCart() {
     try {
@@ -15,6 +16,7 @@ class CartMongoDao {
       return error;
     }
   }
+
   //borrar carrito
   async deleteCart(cartId) {
     try {
@@ -31,6 +33,7 @@ class CartMongoDao {
       return error;
     }
   }
+
   //get carrito by Id y todos los carritos
   async getCart(cartId) {
     try {
@@ -50,6 +53,7 @@ class CartMongoDao {
       return error;
     }
   }
+
   //update cart block (add design, delete design)
   async addDesignToCart(cartId, designId, quantity) {
     try {
@@ -75,13 +79,29 @@ class CartMongoDao {
   //clear cart
   async clearCart(cartId) {
     try {
-      const cartToClear = await cartModel.updateOne(
-        { _id: cartId },
-        { $pull: { products: {} } }
+      console.log(cartId);
+      let cartToClear = await cartModel.updateOne(
+        { _id: `${cartId}` },
+        { $pull: { designs: {} } }
       );
       return cartToClear;
     } catch (error) {
-      return error;
+      // return error;
+      throw new Error(error);
+    }
+  }
+
+  //eliminar producto del carrito
+  async deleteDesign(cartId, designId){
+    try {
+      console.log(designId);
+      let prodToDelete = await cartModel.updateOne(
+        {_id : cartId},
+        { $pull: {designs:{design: designId}}}
+      );
+      return prodToDelete; 
+    } catch (error) {
+      throw new Error(error);
     }
   }
 }

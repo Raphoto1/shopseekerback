@@ -21,3 +21,13 @@ export const addDesignToCart = (cartId, desId, quantity) =>{
     const designToAdd = cartManager.addDesignToCart(cartId, desId, quantity);
     return designToAdd;
 }
+
+export const deleteDesignFromCart = (cartId, desId) =>{
+    const designToDelete = cartManager.deleteDesign(cartId, desId);
+    return designToDelete;
+}
+
+export const clearCart = (cartId) =>{
+    const cartToClear = cartManager.clearCart(cartId);
+    return cartToClear;
+}

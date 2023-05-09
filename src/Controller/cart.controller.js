@@ -1,4 +1,4 @@
-import { getAllCarts, deleteCart, createCart, addDesignToCart } from "../Service/cart.service.js";
+import { getAllCarts, deleteCart, createCart, addDesignToCart, clearCart, deleteDesignFromCart } from "../Service/cart.service.js";
 
 export const createCartCapture = async (req,res) =>{
     const result = await createCart();
@@ -28,5 +28,18 @@ export const addDesignToCartCapture = async (req,res) =>{
     const designId = req.body.designId;
     const quantity = req.body.quantity;
     const result = await addDesignToCart(cartId,designId,quantity);
+    res.json({ status: "success", payLoad: result });
+}
+
+export const deleteDesignFromCartCapture = async (req,res) =>{
+    const cartId = req.params.cartId;
+    const desId = req.params.desId;
+    const result = await deleteDesignFromCart(cartId,desId);
+    res.json({ status: "success", payLoad: result });
+}
+
+export const clearCartCapture = async (req,res) => {
+    const cartToClear = req.params.cartId;
+    const result = await clearCart(cartToClear);
     res.json({ status: "success", payLoad: result });
 }
