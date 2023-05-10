@@ -13,7 +13,7 @@ import { designsRouter } from "./Routes/designs.routes.js";
 import { cartRouter } from "./Routes/cart.routes.js";
 import { userRouter } from "./Routes/user.routes.js";
 import { initializePassport } from "./config/passport.config.js";
-
+import cors from "cors";
 
 //express
 const app = express();
@@ -24,6 +24,7 @@ app.use(express.json());
 app.use(urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/../../public"));
 app.use(cookieParser())
+app.use(cors());
 
 //ajuste session
 
@@ -36,6 +37,12 @@ app.use(passport.initialize());
 app.use("/api/designs", designsRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/user",userRouter);
+
+//test cors
+
+app.get("/test", async (req,res) =>{
+    res.send({payload:"respuesta"});
+});
 
 //connections port
 app.listen(port,()=>console.log(`Server listening on port ${port}`));
