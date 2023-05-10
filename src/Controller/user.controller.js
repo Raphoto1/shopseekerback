@@ -46,8 +46,10 @@ export const loginCapture = async (req, res) => {
         options.server.secretToken,
         { expiresIn: "24h" }
       );
-      res.cookie(options.server.cookieToken, token, { httpOnly: true });
-      res.json({ status: "success", payLoad: result });
+      res.cookie(options.server.cookieToken, token, { httpOnly: true })
+      .send("cookie guardada")
+      // .redirect("http://127.0.0.1:5500/FrontTest/pages/profile.html")
+      // res.json({ status: "success", payLoad: result }).redirect("/");
   }
 };
 
