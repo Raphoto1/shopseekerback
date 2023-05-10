@@ -18,6 +18,7 @@ export const deleteCart = (cartId) =>{
 }
 
 export const addDesignToCart = (cartId, desId, quantity) =>{
+    //confirmar existencia del diseño PENDIENTE
     const designToAdd = cartManager.addDesignToCart(cartId, desId, quantity);
     return designToAdd;
 }
