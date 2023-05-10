@@ -23,11 +23,11 @@ const port = options.server.port;
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/../../public"));
-app.use(cookieParser())
 app.use(cors({
     origin: 'http://127.0.0.1:5500/',
     credentials:true
 }));
+app.use(cookieParser())
 
 //ajuste session
 
