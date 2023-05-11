@@ -2,15 +2,15 @@ import DesignMongoDao from "../Dao/designs.dao.js";
 
 const designManager = new DesignMongoDao();
 
-export const getDesigns = () => {
-  const designs = designManager.getDesigns();
+export const getDesigns = (limit, page, sortQ, queryKey, queryParam) => {
+  const designs = designManager.getDesigns(limit, page, sortQ, queryKey, queryParam);
   return designs;
 };
 
-export const getDesignById = (designId) =>{
-  const design = designManager.getDesignById(designId)
+export const getDesignById = (designId) => {
+  const design = designManager.getDesignById(designId);
   return design;
-}
+};
 
 export const addDesignPack = async (
   code,
@@ -43,15 +43,15 @@ export const addDesignPack = async (
   }
 };
 
-export const updateDesign = async(desId,value,data)=>{
+export const updateDesign = async (desId, value, data) => {
   //revisar que id exista
   const chkDesign = await designManager.chkDesign(desId);
   if (chkDesign) {
-    return await designManager.updateDesign(desId,value,data);
+    return await designManager.updateDesign(desId, value, data);
   } else {
     return "el diseño no existe";
   }
-}
+};
 
 export const deleteDesign = async (designId) => {
   //revisar que id exista

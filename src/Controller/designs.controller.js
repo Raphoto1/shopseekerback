@@ -11,11 +11,16 @@ export const getAllDesigns = async (req, res) => {
   res.json({ status: "success", payLoad: results });
 };
 
-export const getDesignByIdCapture = async (req,res) =>{
-    const designId = req.params.id;
-    const result = await getDesignById(designId);
-    res.json({ status: "success", payLoad: result });
+export const getDesignsFiltered = async(req,res) =>{
+  const {limit, page, sortQ, queryKey, queryParam} = req.params;
+  const result = await getDesigns(limit, page, sortQ, queryKey, queryParam)
 }
+
+export const getDesignByIdCapture = async (req, res) => {
+  const designId = req.params.id;
+  const result = await getDesignById(designId);
+  res.json({ status: "success", payLoad: result });
+};
 
 export const addDesignCapture = async (req, res) => {
   try {
@@ -45,17 +50,17 @@ export const addDesignCapture = async (req, res) => {
   }
 };
 
-export const updateDesignCapture = async (req,res) =>{
-    try {
-        const desId = req.body.desId;
-        const value = req.body.value;
-        const data = req.body.data
-        const result = await updateDesign(desId,value,data);
-        res.json({ status: "success", payLoad: result });
-    } catch (error) {
-        res.status(404).send({ error: `error desde controller ${error}` });
-    }
-}
+export const updateDesignCapture = async (req, res) => {
+  try {
+    const desId = req.body.desId;
+    const value = req.body.value;
+    const data = req.body.data;
+    const result = await updateDesign(desId, value, data);
+    res.json({ status: "success", payLoad: result });
+  } catch (error) {
+    res.status(404).send({ error: `error desde controller ${error}` });
+  }
+};
 
 export const deleteDesignCapture = async (req, res) => {
   try {
@@ -69,3 +74,8 @@ export const deleteDesignCapture = async (req, res) => {
     res.status(404).send({ error: "error desde controller" });
   }
 };
+
+export const getDesignsLive = async (req,res) =>{
+  io.emit(`event`,{for: `everyone`});
+  res.send(`hello world`);
+}
