@@ -47,14 +47,13 @@ export const loginCapture = async (req, res) => {
         { expiresIn: "24h" }
       );
       res.cookie(options.server.cookieToken, token, { httpOnly: true })
-      .send("cookie guardada")
-      // .redirect("http://127.0.0.1:5500/FrontTest/pages/profile.html")
-      // res.json({ status: "success", payLoad: result }).redirect("/");
+      .json({ status: "success", payLoad: result });
   }
 };
 
 export const profileCall = async (req,res) =>{
   const token = req.cookies[options.server.cookieToken];
+  passport.authenticate("jwt", {session:false});
   const info = jwt.verify(token,options.server.secretToken);
   console.log(info);
   res.json({ status: "success", payLoad: info });
