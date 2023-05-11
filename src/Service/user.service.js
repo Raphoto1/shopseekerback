@@ -44,18 +44,7 @@ export const login = async (email, password) => {
   const userToLog = await userManager.getUserByEmail(email);
   if (userToLog) {
     if (validatePassword(password, userToLog)) {
-      //rol
-      const token = jwt.sign(
-        {
-          _id: userToLog._id,
-          first_name: userToLog.first_name,
-          last_name: userToLog.last_name,
-          email: userToLog.email,
-          role: userToLog.role,
-        },
-        options.server.secretToken,
-        { expiresIn: "24h" }
-      );
+      return userToLog;
     } else {
       return false
     }

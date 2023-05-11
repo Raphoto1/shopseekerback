@@ -1,11 +1,13 @@
 //imports de paquetes
 import express from "express";
 import { urlencoded } from "express";
+import path from "path"
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import cors from "cors";
 import { Server } from "socket.io";
+import handlebars from "express-handlebars"
 
 //imports de propio
 import { options } from "./config/config.js";
@@ -15,6 +17,7 @@ import { designsRouter } from "./Routes/designs.routes.js";
 import { cartRouter } from "./Routes/cart.routes.js";
 import { userRouter } from "./Routes/user.routes.js";
 import { initializePassport } from "./config/passport.config.js";
+import { webRouter } from "./Routes/web.routes.js";
 
 //express
 const app = express();
@@ -32,11 +35,18 @@ app.use(
 );
 app.use(cookieParser());
 
+//HBS plantillas
+app.engine(".hbs",handlebars.engine({extname: '.hbs'}));
+app.set('views',path.join(__dirname, "../views"));
+app.set("view engine", ".hbs");
+
+
 //configuracion de passport
 initializePassport();
 app.use(passport.initialize());
 
 //rutas
+app.use("/",webRouter);
 app.use("/api/designs", designsRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/user", userRouter);
