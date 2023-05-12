@@ -8,12 +8,9 @@
         <a href="http://localhost:8080/products/productDetail/?pId={{id}}">Check
           more details</a>
           {{userCart}}
-        <form
-          method="put"
-          action="/api/cart/{{userCart}}/product/{{id}}"
-        >
-          <button type="submit">Add to cart</button>
-        </form>
+       
+          <button onclick="addDesignToCart(`{{id}}`)">Add to cart</button>
+        
         <br />
       {{/each}}
     </ul>

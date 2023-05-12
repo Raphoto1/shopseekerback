@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { renderDesigns, renderIndex, renderLogin, renderProfile, renderSignin } from "../Controller/web.controller.js";
+import { renderCart, renderDesigns, renderIndex, renderLogin, renderProfile, renderSignin } from "../Controller/web.controller.js";
 
 const router = Router();
 
@@ -8,6 +8,7 @@ router.get("/signin", renderSignin);
 router.get("/login", renderLogin);
 router.get("/profile", renderProfile);
 router.get("/designs", renderDesigns);
+router.get("/cart", renderCart)
 
 router.get("/designs/:pid");
 

@@ -4,6 +4,7 @@ import passport from "passport";
 import jwt from "jsonwebtoken";
 import { getDesigns } from "../Service/designs.service.js";
 import { getUserToken } from "../Service/user.service.js";
+import { getAllCarts } from "../Service/cart.service.js";
 
 export const renderSignin = async (req, res) => {
   try {
@@ -31,11 +32,13 @@ export const renderLogin = async (req, res) => {
 
 export const renderDesigns = async (req, res) => {
   try {
+    //saco el carrito del token
     let token = req.cookies[options.server.cookieToken];
     passport.authenticate("jwt", { session: false });
     const userData = jwt.verify(token, options.server.secretToken);
     const userCart = userData.cart[0]._id
     console.log(userData.cart[0]._id);
+    //llamo a traer los diseños
     const designs = await getDesigns()
     res.render("designs", {designs,userCart});
   } catch (error) {
@@ -57,3 +60,23 @@ export const renderProfile = async (req, res) => {
     res.send(`<div>Hubo un error al cargar esta vista</div>`);
   }
 };
+
+export const renderCart = async (req,res) =>{
+  try {
+    //problemas al extraer desde la funcion de user.controller
+    //saco el carrito del token
+    let token = req.cookies[options.server.cookieToken];
+    passport.authenticate("jwt", { session: false });
+    const userData = jwt.verify(token, options.server.secretToken);
+    const userCart = userData.cart[0]._id
+    console.log(userData.cart[0]._id);
+    //llamo al carrito
+    let getCart = await getAllCarts(userCart);
+    let detailCart = getCart.designs
+    console.log(detailCart);
+    res.render("cart", {detailCart, getCart});
+  } catch (error) {
+    console.log(error);
+    res.send(`<div>Hubo un error al cargar esta vista</div>`);
+  }
+}

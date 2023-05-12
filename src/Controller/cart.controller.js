@@ -24,10 +24,12 @@ export const deleteCartCapture = async(req,res) =>{
 }
 
 export const addDesignToCartCapture = async (req,res) =>{
-    const cartId = req.body.cartId;
-    const designId = req.body.designId;
+    const cartId = req.params.cartId;
+    const desId = req.params.desId;
+    console.log(cartId);
+    console.log(desId);
     const quantity = req.body.quantity;
-    const result = await addDesignToCart(cartId,designId,quantity);
+    const result = await addDesignToCart(cartId,desId,quantity);
     res.json({ status: "success", payLoad: result });
 }
 

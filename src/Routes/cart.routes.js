@@ -8,7 +8,7 @@ const cartRouter = Router();
 cartRouter.get("/", getAllCartsCapture);
 cartRouter.get("/:cartId", getCartByIdCapture);
 cartRouter.post("/", createCartCapture);
-cartRouter.put("/", addDesignToCartCapture);
+cartRouter.put("/:cartId/design/:desId", addDesignToCartCapture);
 cartRouter.delete("/clear/:cartId", clearCartCapture);
 cartRouter.delete("/:cartId/design/:desId", deleteDesignFromCartCapture);
 cartRouter.delete("/:cartId", authenticate("authJWT"), authorize("admin"), deleteCartCapture);

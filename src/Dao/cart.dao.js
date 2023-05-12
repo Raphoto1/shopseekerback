@@ -57,13 +57,18 @@ class CartMongoDao {
   //update cart block (add design, delete design)
   async addDesignToCart(cartId, designId, quantity) {
     try {
+      console.log(cartId);
+      console.log(designId);
       const findDesign = await cartModel
         .findById(cartId)
         .populate("designs.design");
+      console.log(findDesign.designs);
       const chkDesignExist = await findDesign.designs.findIndex(
         (des) => des.design._id.toString() === designId
       );
+      console.log(chkDesignExist);
       let quantityToAdd = quantity ? quantity : 1;
+      console.log(chkDesignExist);
       if (chkDesignExist !== -1) {
         findDesign.designs[chkDesignExist].quantity += Number(quantityToAdd);
       } else {
@@ -92,14 +97,14 @@ class CartMongoDao {
   }
 
   //eliminar producto del carrito
-  async deleteDesign(cartId, designId){
+  async deleteDesign(cartId, designId) {
     try {
       console.log(designId);
       let prodToDelete = await cartModel.updateOne(
-        {_id : cartId},
-        { $pull: {designs:{design: designId}}}
+        { _id: cartId },
+        { $pull: { designs: { design: designId } } }
       );
-      return prodToDelete; 
+      return prodToDelete;
     } catch (error) {
       throw new Error(error);
     }
