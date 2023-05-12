@@ -1,4 +1,29 @@
 <h1>designs</h1>
-
-<h1>profile</h1>
-    <button onclick="getDesigns()">get designs</button>
+{{userCart}}
+ <div id="designsList">
+    <ul>
+      {{#each designs.docs}}
+        <br />
+        <li>Titulo:{{title}}, Id:{{id}}, Precio{{price}}, Stock:{{stock}}</li>
+        <a href="http://localhost:8080/products/productDetail/?pId={{id}}">Check
+          more details</a>
+          {{userCart}}
+        <form
+          method="put"
+          action="/api/cart/{{userCart}}/product/{{id}}"
+        >
+          <button type="submit">Add to cart</button>
+        </form>
+        <br />
+      {{/each}}
+    </ul>
+  </div>
+   </div>
+  {{#if designs.hasPrevPage}}
+        <a href="/products/?page={{designs.prevPage}}">Anterior</a>
+        {{/if}}
+        <span>Página {{designs.page}} de {{designs.totalPages}}</span>
+        {{#if designs.hasNextPage}}
+        <a href="/products/?page={{designs.nextPage}}">Siguiente</a>
+        {{/if}}
+</div>

@@ -56,3 +56,9 @@ export const login = async (email, password) => {
   }
   return userToLog;
 };
+
+export const getUserToken = () =>{
+  let token = req.cookies[options.server.cookieToken];
+  passport.authenticate("jwt", { session: false });
+  const info = jwt.verify(token, options.server.secretToken);
+}

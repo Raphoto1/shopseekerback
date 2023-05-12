@@ -28,7 +28,7 @@ class DesignMongoDao {
       }
     }
     //empaqueto filtros
-    let options = { limit: limitIn, page: pageIn, sort: sortIn };
+    let options = { limit: limitIn, page: pageIn, sort: sortIn, lean:true };
     try {
       const designs = await designModel.paginate(querySearch, options);
       return designs;

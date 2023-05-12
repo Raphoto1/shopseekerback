@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 //importPropio
-import { signIn, login } from "../Service/user.service.js";
+import { signIn, login, getUserToken } from "../Service/user.service.js";
 import { options } from "../config/config.js";
 
 export const signInCapture = async (req, res) => {
@@ -40,6 +40,7 @@ export const loginCapture = async (req, res) => {
         _id: result._id,
         first_name: result.first_name,
         last_name: result.last_name,
+        cart:result.cart,
         email: result.email,
         role: result.role,
       },
@@ -53,10 +54,9 @@ export const loginCapture = async (req, res) => {
 };
 
 export const profileCall = async (req, res) => {
-  const token = req.cookies[options.server.cookieToken];
+  let token = req.cookies[options.server.cookieToken];
   passport.authenticate("jwt", { session: false });
   const info = jwt.verify(token, options.server.secretToken);
-  console.log(info);
   res.json({ status: "success", payLoad: info });
 };
 
