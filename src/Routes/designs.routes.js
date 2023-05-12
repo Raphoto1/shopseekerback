@@ -6,7 +6,7 @@ import { authorize } from "../middlewares/authorize.js";
 const designsRouter = Router();
 
 //rutas designs
-designsRouter.get("/", getAllDesigns);
+designsRouter.get("/",authenticate("authJWT"), authorize("admin"),getAllDesigns);
 designsRouter.get("/filtered", getDesignsFiltered);
 designsRouter.get("/:id", getDesignByIdCapture);
 designsRouter.post("/",authenticate("authJWT"), authorize("admin"), addDesignCapture);

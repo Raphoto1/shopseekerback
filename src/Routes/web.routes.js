@@ -1,11 +1,13 @@
 import {Router} from "express";
-import { renderIndex } from "../Controller/web.controller.js";
+import { renderDesigns, renderIndex, renderLogin, renderProfile, renderSignin } from "../Controller/web.controller.js";
 
 const router = Router();
 
 router.get("/", renderIndex);
-
-router.get("/designs");
+router.get("/signin", renderSignin);
+router.get("/login", renderLogin);
+router.get("/profile", renderProfile);
+router.get("/designs", renderDesigns);
 
 router.get("/designs/:pid");
 

@@ -44,6 +44,7 @@ export const login = async (email, password) => {
   const userToLog = await userManager.getUserByEmail(email);
   if (userToLog) {
     if (validatePassword(password, userToLog)) {
+      console.log("si existe el correo");
       return userToLog;
     } else {
       return false

@@ -34,31 +34,32 @@ export const loginCapture = async (req, res) => {
   if (result === false) {
     res.json({ status: "failed", payLoad: "email or pass failed" });
   } else {
-      // token para jwt
-      const token = jwt.sign(
-        {
-          _id: result._id,
-          first_name: result.first_name,
-          last_name: result.last_name,
-          email: result.email,
-          role: result.role,
-        },
-        options.server.secretToken,
-        { expiresIn: "24h" }
-      );
-      res.cookie(options.server.cookieToken, token, { httpOnly: true })
+    // token para jwt
+    const token = jwt.sign(
+      {
+        _id: result._id,
+        first_name: result.first_name,
+        last_name: result.last_name,
+        email: result.email,
+        role: result.role,
+      },
+      options.server.secretToken,
+      { expiresIn: "24h" }
+    );
+    res
+      .cookie(options.server.cookieToken, token, { httpOnly: true })
       .json({ status: "success", payLoad: result });
   }
 };
 
-export const profileCall = async (req,res) =>{
+export const profileCall = async (req, res) => {
   const token = req.cookies[options.server.cookieToken];
-  passport.authenticate("jwt", {session:false});
-  const info = jwt.verify(token,options.server.secretToken);
+  passport.authenticate("jwt", { session: false });
+  const info = jwt.verify(token, options.server.secretToken);
   console.log(info);
   res.json({ status: "success", payLoad: info });
-}
+};
 
-export const logoutCapture = async (req,res, next) =>{
-    res.cookie(options.server.cookieToken).send("borrada la cookie")
-}
+export const logoutCapture = async (req, res, next) => {
+   res.clearCookie(`${options.server.cookieToken}`).send("cleared");
+};
