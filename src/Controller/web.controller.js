@@ -80,3 +80,7 @@ export const renderCart = async (req,res) =>{
     res.send(`<div>Hubo un error al cargar esta vista</div>`);
   }
 }
+
+export const renderChat = async (req,res) =>{
+  res.render("chat");
+}

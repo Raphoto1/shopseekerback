@@ -1,19 +1,26 @@
-import {Router} from "express";
-import { renderCart, renderDesigns, renderIndex, renderLogin, renderProfile, renderSignin } from "../Controller/web.controller.js";
+import { Router } from "express";
+import {
+  renderCart,
+  renderChat,
+  renderDesigns,
+  renderIndex,
+  renderLogin,
+  renderProfile,
+  renderSignin,
+} from "../Controller/web.controller.js";
 
-const router = Router();
+const webRouter = Router();
 
-router.get("/", renderIndex);
-router.get("/signin", renderSignin);
-router.get("/login", renderLogin);
-router.get("/profile", renderProfile);
-router.get("/designs", renderDesigns);
-router.get("/cart", renderCart)
-
-router.get("/designs/:pid");
-
-router.get("/cart/:cid");
+webRouter.get("/", renderIndex);
+webRouter.get("/signin", renderSignin);
+webRouter.get("/login", renderLogin);
+webRouter.get("/profile", renderProfile);
+webRouter.get("/designs", renderDesigns);
+webRouter.get("/cart", renderCart);
+webRouter.get("/designs/:pid");
+webRouter.get("/cart/:cid");
+webRouter.get("/chat", renderChat);
 
 //rutas vistas autenticacion
 
-export {router as webRouter}
+export { webRouter };
