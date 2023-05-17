@@ -22,6 +22,11 @@ import { webRouter } from "./Routes/web.routes.js";
 //express
 const app = express();
 const port = options.server.port;
+//connections port
+const httpServer = app.listen(port, () => console.log(`Server listening on port ${port}`));
+
+//server websocket
+const io = new Server(httpServer);
 
 //midles de Node
 app.use(express.json());
@@ -45,21 +50,20 @@ app.set("view engine", ".hbs");
 initializePassport();
 app.use(passport.initialize());
 
-//rutas
+//rutas Principales
 app.use("/",webRouter);
 app.use("/api/designs", designsRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/user", userRouter);
+//rutas secundarias
+app.use("/chat");
+
 
 //test cors
 app.get("/test", async (req, res) => {
   res.send({ payload: "respuesta" });
 });
 
-//socketIo
-// const io = new Server(httpServer);
 
-//connections port
-app.listen(port, () => console.log(`Server listening on port ${port}`));
 //connection mongo
 const dbInstance = ConnectionDb.getInstance();

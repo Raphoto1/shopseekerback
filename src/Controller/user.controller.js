@@ -49,7 +49,7 @@ export const loginCapture = async (req, res) => {
     );
     res
       .cookie(options.server.cookieToken, token, { httpOnly: true })
-      .json({ status: "success", payLoad: result });
+      .json({ status: "success", payLoad: result })
   }
 };
 

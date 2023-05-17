@@ -3,6 +3,7 @@ function makeRequest(){
     .then((res) => res.json())
     .then((data) => console.log(data));
 }
+
 function getDesigns(){
     fetch("http://localhost:8080/api/designs")
     .then((res) => res.json())
@@ -14,4 +15,3 @@ function getProfile(){
     .then((res) => res.json())
     .then((data) => console.log(data.payLoad));
 }
-

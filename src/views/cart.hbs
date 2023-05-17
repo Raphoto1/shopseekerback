@@ -15,7 +15,9 @@
               <li>price: {{design.price}}</li>
               <li>Shops:</li>
               <ul>
-              <li>{{design.shops}}</li>
+                {{#each design.shops}}
+                    <li>{{this.[]}}</li>
+                {{/each}}
               </ul>
               <li>stock: {{design.stock}}</li>
               <li>status: {{design.status}}</li>
