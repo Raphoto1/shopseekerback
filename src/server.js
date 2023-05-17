@@ -19,16 +19,13 @@ import { userRouter } from "./Routes/user.routes.js";
 import { initializePassport } from "./config/passport.config.js";
 import { webRouter } from "./Routes/web.routes.js";
 import { chatRouter } from "./Routes/chat.routes.js";
-import ioSocket from "./sockets/ioSockets.sockets.js"
+import {ioSocket} from "./sockets/ioSockets.sockets.js"
 
 //express
 const app = express();
 const port = options.server.port;
 //connections port
 const httpServer = app.listen(port, () => console.log(`Server listening on port ${port}`));
-
-//server websocket directo
-// const io = new Server(httpServer);
 
 //websocket desde externo
 ioSocket(httpServer);
@@ -62,11 +59,6 @@ app.use("/api/cart", cartRouter);
 app.use("/api/user", userRouter);
 //rutas secundarias
 app.use("/chat", chatRouter);
-
-// //test de socketIO
-// io.on("connection", (socket) =>{
-//   console.log("nuevo cliente socket conectado");
-// })
 
 //test cors
 app.get("/test", async (req, res) => {

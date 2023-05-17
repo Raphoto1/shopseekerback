@@ -11,12 +11,6 @@ function getDesigns(){
     .then((data) => console.log(data.payLoad));
 }
 
-function getProfile(){
-    const profile = fetch("http://localhost:8080/api/user/profile")
-    .then((res) => res.json())
-    .then((data) => data.payLoad);
-    return profile
-}
 
 function logout(){
     fetch("http://localhost:8080/api/user/logout",{method:"post"})
@@ -24,11 +18,11 @@ function logout(){
     .then((data) => console.log(data.payLoad));
 }
 
-function addToCart (cart,desId){
-    const pushToCart = fetch(`http://localhost:8080/api/cart/${cart}/design/${desId}`, {method:"put"})
+function getProfile(){
+    const profile = fetch("http://localhost:8080/api/user/profile")
     .then((res) => res.json())
-    .then((data) => data);
-    return pushToCart
+    .then((data) => data.payLoad);
+    return profile
 }
 
 async function addDesignToCart (desId) {
@@ -36,5 +30,12 @@ async function addDesignToCart (desId) {
     let cart = user.cart[0]._id
     console.log(cart); 
     const pushToCart = await addToCart(cart,desId)
+    return pushToCart
+}
+
+function addToCart (cart,desId){
+    const pushToCart = fetch(`http://localhost:8080/api/cart/${cart}/design/${desId}`, {method:"put"})
+    .then((res) => res.json())
+    .then((data) => data);
     return pushToCart
 }

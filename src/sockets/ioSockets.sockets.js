@@ -1,8 +1,21 @@
-import {Server} from "socket.io";
+import { Server } from "socket.io";
 
-export default function(server) {
-    const io = new Server(server);
-    io.on('connection', (socket) => {
-        console.log('nuevo cliente conectado');
-      });
+// function emitir (){
+//     const socketTest = "message"
+//     const contenido = "esto salio desde otra parte"
+//     io.emit(`${socketTest}`, `${contenido}`);
+// }
+
+export const ioSocket = (server) => {
+  const io = new Server(server);
+  io.on("connection", (socket) => {
+    console.log("nuevo cliente conectado");
+    const socketToSend = enviarAlgoPorChannel()
+    socket.emit(socketToSend, "message interno desde server");
+  });
+
+}
+
+const enviarAlgoPorChannel = () =>{
+    return "message"
 }

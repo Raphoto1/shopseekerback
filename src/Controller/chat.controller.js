@@ -1,12 +1,16 @@
+function emitir (){
+    const socketTest = "message"
+    const contenido = "esto salio desde otra parte"
+    socket.emit(`${socketTest}`, `${contenido}`);
+}
+
 
 export const chatCapture = (req, res) => {
   try {
-    req.io = io;
-    //test de socketIO
-    console.log("estoy en chatio controller");
-    io.on("connection", (socket) => {
-      console.log("nuevo cliente socket conectado");
-    });
+    const algoparaemitir = emitir();
+    console.log("paso por el controller");
+    console.log(algoparaemitir);
+    return algoparaemitir;
   } catch (error) {
     return error;
   }
