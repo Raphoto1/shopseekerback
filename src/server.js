@@ -19,16 +19,18 @@ import { userRouter } from "./Routes/user.routes.js";
 import { initializePassport } from "./config/passport.config.js";
 import { webRouter } from "./Routes/web.routes.js";
 import { chatRouter } from "./Routes/chat.routes.js";
-import {ioSocket} from "./sockets/ioSockets.sockets.js"
+import {ioSocketLaunch} from "./sockets/ioSockets.sockets.js"
 
 //express
 const app = express();
 const port = options.server.port;
-//connections port
-const httpServer = app.listen(port, () => console.log(`Server listening on port ${port}`));
+
+//connections port/se exporta pare visualizar en sockets
+export const httpServer = app.listen(port, () => console.log(`Server listening on port ${port}`));
 
 //websocket desde externo
-ioSocket(httpServer);
+// ioSocket(httpServer);
+// ioSocketLunch();
 
 //midles de Node
 app.use(express.json());

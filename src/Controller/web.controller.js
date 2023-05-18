@@ -1,10 +1,14 @@
-import { profileCall } from "./user.controller.js";
-import { options } from "../config/config.js";
+//imports app
 import passport from "passport";
 import jwt from "jsonwebtoken";
+//import propios
+import { profileCall } from "./user.controller.js";
+import { options } from "../config/config.js";
 import { getDesigns } from "../Service/designs.service.js";
 import { getUserToken } from "../Service/user.service.js";
 import { getAllCarts } from "../Service/cart.service.js";
+import { ioSocketLaunch } from "../sockets/ioSockets.sockets.js";
+
 
 export const renderSignin = async (req, res) => {
   try {
@@ -82,5 +86,7 @@ export const renderCart = async (req,res) =>{
 }
 
 export const renderChat = async (req,res) =>{
+  //se abre conexion de socket
+  const chat = ioSocketLaunch();
   res.render("chat");
 }

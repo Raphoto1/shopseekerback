@@ -1,16 +1,9 @@
-function emitir (){
-    const socketTest = "message"
-    const contenido = "esto salio desde otra parte"
-    socket.emit(`${socketTest}`, `${contenido}`);
-}
-
+import {ioSocketLaunch} from "../sockets/ioSockets.sockets.js"
 
 export const chatCapture = (req, res) => {
   try {
-    const algoparaemitir = emitir();
-    console.log("paso por el controller");
-    console.log(algoparaemitir);
-    return algoparaemitir;
+    
+    red.send("hola desde controller")
   } catch (error) {
     return error;
   }

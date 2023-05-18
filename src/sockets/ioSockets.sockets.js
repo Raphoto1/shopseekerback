@@ -1,21 +1,25 @@
+//imports app
 import { Server } from "socket.io";
-
-// function emitir (){
-//     const socketTest = "message"
-//     const contenido = "esto salio desde otra parte"
-//     io.emit(`${socketTest}`, `${contenido}`);
-// }
+//imports propios
+import { addMessage, getMessages } from "../Service/chat.service.js";
+import { httpServer } from "../server.js";
 
 export const ioSocket = (server) => {
   const io = new Server(server);
-  io.on("connection", (socket) => {
+  io.on("connection", async(socket) => {
     console.log("nuevo cliente conectado");
-    const socketToSend = enviarAlgoPorChannel()
-    socket.emit(socketToSend, "message interno desde server");
+    //se envia historial de entrada
+    const messages = await getMessages();
+    socket.emit("msgHistory", messages);
+    //captura
+    socket.on("message", async(data) =>{
+      await addMessage(data);
+      const messages = await getMessages();
+      socket.emit("msgHistory", messages);
+    });
   });
-
 }
 
-const enviarAlgoPorChannel = () =>{
-    return "message"
+export const ioSocketLaunch = ()=>{
+    ioSocket(httpServer);
 }
