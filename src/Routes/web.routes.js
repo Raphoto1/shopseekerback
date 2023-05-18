@@ -8,6 +8,8 @@ import {
   renderProfile,
   renderSignin,
 } from "../Controller/web.controller.js";
+import { authenticate } from "../middlewares/authenticate.js";
+import { authorize } from "../middlewares/authorize.js";
 
 const webRouter = Router();
 
@@ -19,7 +21,7 @@ webRouter.get("/designs", renderDesigns);
 webRouter.get("/cart", renderCart);
 webRouter.get("/designs/:pid");
 webRouter.get("/cart/:cid");
-webRouter.get("/chat", renderChat);
+webRouter.get("/chat", authenticate("authJWT"), authorize("user"), renderChat);
 
 //rutas vistas autenticacion
 
