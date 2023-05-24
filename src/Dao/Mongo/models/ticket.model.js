@@ -8,7 +8,11 @@ const ticketSchema = new mongoose.Schema({
         require:true
     },
     purchase_datetime: Date,
-    amount: Number,
+    cartId: String,
+    designs: {
+        type:Array,
+        default:[]
+    },
     purchaser:{
         type:String,
         require:true

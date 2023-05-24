@@ -77,9 +77,18 @@ export const cartPurchase = async (cartId, userId) => {
       failedDesigns.push(failedToAdd);
     }
   }
+  //empaquetar y enviar los productos que no se pudieron comprar
+  console.log(failedDesigns);
 console.log("termina la iteracion");
 
-  const payload = await createNewTicket(cartId,userId,chkArray);
-  return payload
+  const packResponse =async() => {
+    const payload = {
+      correctDesigns: await createNewTicket(cartId,userId,chkArray),
+      failedDesigns: failedDesigns
+    }
+    console.log(payload);
+    return payload
+  }
+  return packResponse()
 
 };
