@@ -7,8 +7,8 @@ export const getDesigns = (limit, page, sortQ, queryKey, queryParam) => {
   return designs;
 };
 
-export const getDesignById = (designId) => {
-  const design = designManager.getDesignById(designId);
+export const getDesignById = async(designId) => {
+  const design = await designManager.getDesignById(designId);
   return design;
 };
 

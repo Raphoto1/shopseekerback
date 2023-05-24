@@ -90,3 +90,7 @@ export const renderChat = async (req,res) =>{
   const chat = ioSocketLaunch();
   res.render("chat");
 }
+
+export const renderAddDesign = async(req,res) =>{
+  res.render("adddesign")
+}

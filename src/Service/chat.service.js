@@ -5,7 +5,6 @@ const chatManager = new ChatMongoDao();
 
 export const getMessages = async () => {
     const messages = await chatManager.getMessages();
-    
     return messages;
 }
 

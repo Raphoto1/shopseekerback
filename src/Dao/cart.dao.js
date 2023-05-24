@@ -43,7 +43,6 @@ class CartMongoDao {
           .findById({ _id: `${cartId}` })
           .populate("designs.design")
           .lean();
-        console.log(oneCart);
         return oneCart;
       } else {
         const allCarts = await cartModel.find();

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  renderAddDesign,
   renderCart,
   renderChat,
   renderDesigns,
@@ -22,6 +23,7 @@ webRouter.get("/cart", renderCart);
 webRouter.get("/designs/:pid");
 webRouter.get("/cart/:cid");
 webRouter.get("/chat", authenticate("authJWT"), authorize("user"), renderChat);
+webRouter.get("/addDesign", authenticate("authJWT"), authorize("admin"), renderAddDesign);
 
 //rutas vistas autenticacion
 

@@ -5,17 +5,18 @@ function makeRequest(){
     .then((res) => res.json())
     .then((data) => console.log(data));
 }
+
 function getDesigns(){
     fetch("http://localhost:8080/api/designs")
     .then((res) => res.json())
     .then((data) => console.log(data.payLoad));
 }
 
-
 function logout(){
-    fetch("http://localhost:8080/api/user/logout",{method:"post"})
+    const logout = fetch("http://localhost:8080/api/user/logout",{method:"post"})
     .then((res) => res.json())
     .then((data) => console.log(data.payLoad));
+    return logout
 }
 
 function getProfile(){
@@ -39,3 +40,11 @@ function addToCart (cart,desId){
     .then((data) => data);
     return pushToCart
 }
+
+Handlebars.registerHelper('if_eq', function(a, b, opts) {
+    if (a == b) {
+        return opts.fn(this);
+    } else {
+        return opts.inverse(this);
+    }
+  });

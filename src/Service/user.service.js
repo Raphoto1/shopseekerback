@@ -49,10 +49,9 @@ export const login = async (email, password) => {
     } else {
       return false
     }
-    console.log("si existe el correo");
   } else {
-    return false
     console.log("no existe el correo");
+    return false
   }
   return userToLog;
 };
@@ -61,4 +60,5 @@ export const getUserToken = () =>{
   let token = req.cookies[options.server.cookieToken];
   passport.authenticate("jwt", { session: false });
   const info = jwt.verify(token, options.server.secretToken);
+  return info;
 }

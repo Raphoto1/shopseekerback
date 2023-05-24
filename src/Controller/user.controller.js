@@ -11,6 +11,9 @@ export const signInCapture = async (req, res) => {
   //preguntar por la seguridad al pasar esto a service
   //pasar data a service
   const result = signIn(first_name, last_name, email, age, password);
+  //se crea isAdmin para hbs
+  let isAdmin = false;
+    if (result.role === "admin") {isAdmin = true}
   // token para jwt
   const token = jwt.sign(
     {
@@ -19,6 +22,7 @@ export const signInCapture = async (req, res) => {
       last_name: result.last_name,
       email: result.email,
       role: result.role,
+      isAdmin: isAdmin
     },
     options.server.secretToken,
     { expiresIn: "24h" }
@@ -34,6 +38,10 @@ export const loginCapture = async (req, res) => {
   if (result === false) {
     res.json({ status: "failed", payLoad: "email or pass failed" });
   } else {
+    //se crea isAdmin para hbs
+    let isAdmin = false;
+    if (result.role === "admin") {isAdmin = true}
+
     // token para jwt
     const token = jwt.sign(
       {
@@ -43,13 +51,15 @@ export const loginCapture = async (req, res) => {
         cart:result.cart,
         email: result.email,
         role: result.role,
+        isAdmin: isAdmin
       },
       options.server.secretToken,
       { expiresIn: "24h" }
     );
     res
       .cookie(options.server.cookieToken, token, { httpOnly: true })
-      .json({ status: "success", payLoad: result })
+      // .json({ status: "success", payLoad: result })
+      .redirect("/profile");
   }
 };
 
@@ -61,5 +71,7 @@ export const profileCall = async (req, res) => {
 };
 
 export const logoutCapture = async (req, res, next) => {
-   res.clearCookie(`${options.server.cookieToken}`).send("cleared");
+  res
+  .clearCookie(`${options.server.cookieToken}`)
+  .redirect(303,"/login");
 };
