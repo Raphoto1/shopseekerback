@@ -62,13 +62,19 @@ export const clearCartCapture = async (req, res) => {
 };
 
 export const cartPurchaseCapture = async (req, res) => {
-  const cartToPurchase = req.params.cartId;
-  //se deja busqueda directa de la data del user
-  let token = req.cookies[options.server.cookieToken];
-  passport.authenticate("jwt", { session: false });
-  const userData = jwt.verify(token, options.server.secretToken);
-  //se arma paquete para la funcion
-  const userEmail = userData.email;
-  const result = await cartPurchase(cartToPurchase, userEmail);
-  res.json({ status: "success", payLoad: result });
+  try {
+    const cartToPurchase = req.params.cartId;
+    //se deja busqueda directa de la data del user
+    let token = req.cookies[options.server.cookieToken];
+    passport.authenticate("jwt", { session: false });
+    const userData = jwt.verify(token, options.server.secretToken);
+    //se arma paquete para la funcion
+    const userEmail = userData.email;
+    const result = await cartPurchase(cartToPurchase, userEmail);
+    console.log(result);
+    res.json({ status: "success", payLoad: result });  
+  } catch (error) {
+    res.status(404).send({ error: `error desde controller${error}` });
+  }
+  
 };

@@ -1,6 +1,7 @@
 import CartMongoDao from "../Dao/cart.dao.js";
 import DesignMongoDao from "../Dao/designs.dao.js";
-import { getDesignById } from "./designs.service.js";
+import { getDesignById, updateDesign } from "./designs.service.js";
+import { createNewTicket } from "./ticket.service.js";
 
 const designManager = new DesignMongoDao();
 
@@ -50,17 +51,35 @@ export const cartPurchase = async (cartId, userId) => {
     designCodes.push(designsFiltered);
   });
   //reviso el stock de cada diseño
-  const chkArray = []
-  await designCodes.forEach(async (e)=>{
-    const singleDesign = await getDesignById(e.designId);
-    const stock = singleDesign.stock
-    // console.log(`esto es test 2${singleDesign} y esto es ${e.designQuanty}`);
-    chkArray.push(stock)
-    console.log(chkArray);
-  });
-  console.log(chkArray);
+  const chkArray = [];
+  const failedDesigns = [];
+  for(let i=0; i<designCodes.length;i++){
+    console.log("paso por el for "+i);
+    const designToWork = designCodes[i];
+    const singleDesign = await getDesignById(designCodes[i].designId);
+    const stockAvailable = singleDesign.stock;
+    const newStock = stockAvailable - designToWork.designQuanty;
+    if (stockAvailable > designToWork.designQuanty) {
+      const definitiveCart = {
+        designId: designToWork.designId,
+        quanty: designToWork.designQuanty,
+      };
+      chkArray.push(definitiveCart);
+      // await updateDesign(e.designId,"stock",newStock);
+      console.log("si alcanza para enviar");
+    } else {
+      console.log("no alcanza para enviar");
+      const failedToAdd = {
+        designId: designToWork.designId,
+        quanty: designToWork.designQuanty,
+        quantyDiference: newStock,
+      };
+      failedDesigns.push(failedToAdd);
+    }
+  }
+console.log("termina la iteracion");
 
-  return chkArray
-  // console.log(`esto es por fuera de stock${designStock}`);
-  
+  const payload = await createNewTicket(cartId,userId,chkArray);
+  return payload
+
 };
