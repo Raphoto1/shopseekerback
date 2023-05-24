@@ -18,6 +18,6 @@ export const createNewTicket = async (
     }
     console.log(newTicket);
     //se desactiva para test
-    // const ticketCreated = ticketMaganer.createTicket(newTicket);
+    const ticketCreated = ticketMaganer.createTicket(newTicket);
     return newTicket
 }

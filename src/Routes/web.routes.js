@@ -24,6 +24,7 @@ webRouter.get("/designs/:pid");
 webRouter.get("/cart/:cid");
 webRouter.get("/chat", authenticate("authJWT"), authorize("user"), renderChat);
 webRouter.get("/addDesign", authenticate("authJWT"), authorize("admin"), renderAddDesign);
+webRouter.get("/purchase")
 
 //rutas vistas autenticacion
 

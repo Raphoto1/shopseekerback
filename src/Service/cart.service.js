@@ -65,7 +65,7 @@ export const cartPurchase = async (cartId, userId) => {
         quanty: designToWork.designQuanty,
       };
       chkArray.push(definitiveCart);
-      // await updateDesign(e.designId,"stock",newStock);
+      await updateDesign(e.designId,"stock",newStock);
       console.log("si alcanza para enviar");
     } else {
       console.log("no alcanza para enviar");
@@ -94,9 +94,6 @@ export const cartPurchase = async (cartId, userId) => {
     };
     return payload;
   };
-  //borrar diseños que sean comprados del cart
-
-  // await this.deleteDesignFromCart(cartId,chkArray);
 
   return packResponse();
 };

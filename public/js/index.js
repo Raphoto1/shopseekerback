@@ -41,10 +41,18 @@ function addToCart (cart,desId){
     return pushToCart
 }
 
-Handlebars.registerHelper('if_eq', function(a, b, opts) {
-    if (a == b) {
-        return opts.fn(this);
-    } else {
-        return opts.inverse(this);
-    }
-  });
+function purchaseCart (cart){
+    console.log(cart);
+    const purchase = fetch(`http://localhost:8080/api/cart/${cart}/purchase`, {method:"post"})
+    .then((res) => res.json())
+    .then((data) => data);
+    return purchase
+}
+
+// Handlebars.registerHelper('if_eq', function(a, b, opts) {
+//     if (a == b) {
+//         return opts.fn(this);
+//     } else {
+//         return opts.inverse(this);
+//     }
+//   });
