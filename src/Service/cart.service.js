@@ -49,7 +49,6 @@ export const cartPurchase = async (cartId, userId) => {
     };
     designCodes.push(designsFiltered);
   });
-  return designCodes
   //reviso el stock de cada diseño
   const chkArray = []
   await designCodes.forEach(async (e)=>{
