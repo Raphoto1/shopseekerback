@@ -108,6 +108,16 @@ class CartMongoDao {
       throw new Error(error);
     }
   }
+
+  //actualizar info del carrito pendiente a futuro
+  async updateCart(cartId, designId, newQuantity){
+
+    let designToUpdate = await cartModel.updateOne(
+      {_id: cartId},
+      []
+    );
+    return designToUpdate
+  }
 }
 
 export default CartMongoDao;

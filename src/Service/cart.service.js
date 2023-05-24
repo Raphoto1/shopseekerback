@@ -53,8 +53,8 @@ export const cartPurchase = async (cartId, userId) => {
   //reviso el stock de cada diseño
   const chkArray = [];
   const failedDesigns = [];
-  for(let i=0; i<designCodes.length;i++){
-    console.log("paso por el for "+i);
+  for (let i = 0; i < designCodes.length; i++) {
+    console.log("paso por el for " + i);
     const designToWork = designCodes[i];
     const singleDesign = await getDesignById(designCodes[i].designId);
     const stockAvailable = singleDesign.stock;
@@ -78,17 +78,25 @@ export const cartPurchase = async (cartId, userId) => {
     }
   }
   //empaquetar y enviar los productos que no se pudieron comprar
-  console.log(failedDesigns);
-console.log("termina la iteracion");
+  console.log("termina la iteracion");
+  //se eliminan los articulos que se compraron del carrito
+  console.log(chkArray);
+    chkArray.forEach((e) =>{
+      cartManager.deleteDesign(cartId,e.designId);
+    })
 
-  const packResponse =async() => {
+    if(chkArray===[]){console.log("chk esta vacio");}
+  const packResponse = async () => {
+    
     const payload = {
-      correctDesigns: await createNewTicket(cartId,userId,chkArray),
-      failedDesigns: failedDesigns
-    }
-    console.log(payload);
-    return payload
-  }
-  return packResponse()
+      correctDesigns: await createNewTicket(cartId, userId, chkArray),
+      failedDesigns: failedDesigns,
+    };
+    return payload;
+  };
+  //borrar diseños que sean comprados del cart
 
+  // await this.deleteDesignFromCart(cartId,chkArray);
+
+  return packResponse();
 };
