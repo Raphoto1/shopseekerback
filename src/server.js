@@ -59,6 +59,7 @@ app.use("/",webRouter);
 app.use("/api/designs", designsRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/user", userRouter);
+app.use("/mockingdesigns");
 //rutas secundarias
 app.use("/chat", chatRouter);
 

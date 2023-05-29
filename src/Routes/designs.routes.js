@@ -1,4 +1,6 @@
+//imports de app
 import { Router } from "express";
+//imports propios
 import { addDesignCapture, deleteDesignCapture, getAllDesigns, getDesignByIdCapture, getDesignsFiltered, getDesignsLive, updateDesignCapture } from "../Controller/designs.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { authorize } from "../middlewares/authorize.js";
