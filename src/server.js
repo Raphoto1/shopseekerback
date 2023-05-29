@@ -20,6 +20,7 @@ import { initializePassport } from "./config/passport.config.js";
 import { webRouter } from "./Routes/web.routes.js";
 import { chatRouter } from "./Routes/chat.routes.js";
 import {ioSocketLaunch} from "./sockets/ioSockets.sockets.js"
+import { mockRouter } from "./Routes/mockDesigns.routes.js";
 
 //express
 const app = express();
@@ -59,7 +60,7 @@ app.use("/",webRouter);
 app.use("/api/designs", designsRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/user", userRouter);
-app.use("/mockingdesigns");
+app.use("/mockingdesigns", mockRouter);
 //rutas secundarias
 app.use("/chat", chatRouter);
 
