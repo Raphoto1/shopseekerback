@@ -21,6 +21,7 @@ import { webRouter } from "./Routes/web.routes.js";
 import { chatRouter } from "./Routes/chat.routes.js";
 import {ioSocketLaunch} from "./sockets/ioSockets.sockets.js"
 import { mockRouter } from "./Routes/mockDesigns.routes.js";
+import { errorHandler } from "./middlewares/ErrorsHandler.js";
 
 //express
 const app = express();
@@ -44,6 +45,9 @@ app.use(
   })
 );
 app.use(cookieParser());
+
+//eerror
+app.use(errorHandler);
 
 //HBS plantillas
 app.engine(".hbs",handlebars.engine({extname: '.hbs'}));

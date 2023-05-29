@@ -1,3 +1,4 @@
+//imports propios
 import {
   getDesigns,
   addDesignPack,
@@ -5,16 +6,19 @@ import {
   getDesignById,
   updateDesign,
 } from "../Service/designs.service.js";
+import { CustomError } from "../Service/Error/customError.service.js";
+import { generateDesignsErrorInfo } from "../Service/Error/designsErrorInfo.js";
+import { EError } from "../enums/EError.js";
 
 export const getAllDesigns = async (req, res) => {
   const results = await getDesigns();
   res.json({ status: "success", payLoad: results });
 };
 
-export const getDesignsFiltered = async(req,res) =>{
-  const {limit, page, sortQ, queryKey, queryParam} = req.params;
-  const result = await getDesigns(limit, page, sortQ, queryKey, queryParam)
-}
+export const getDesignsFiltered = async (req, res) => {
+  const { limit, page, sortQ, queryKey, queryParam } = req.params;
+  const result = await getDesigns(limit, page, sortQ, queryKey, queryParam);
+};
 
 export const getDesignByIdCapture = async (req, res) => {
   const designId = req.params.id;
@@ -33,6 +37,15 @@ export const addDesignCapture = async (req, res) => {
     const stock = Number(req.body.stock);
     const shops = req.body.shops;
     const photos = req.body.photos;
+    //EError
+    if (!code || !title || !price || !stock || !shops) {
+      CustomError.createError({
+        name: "design create error",
+        cause: generateDesignsErrorInfo(code, title, price, stock, shops),
+        message: "Error al crear el diseño",
+        errorCode: EError.INVALID_PARAMS,
+      });
+    }
     //envio
     const result = await addDesignPack(
       code,
@@ -75,7 +88,7 @@ export const deleteDesignCapture = async (req, res) => {
   }
 };
 
-export const getDesignsLive = async (req,res) =>{
-  io.emit(`event`,{for: `everyone`});
+export const getDesignsLive = async (req, res) => {
+  io.emit(`event`, { for: `everyone` });
   res.send(`hello world`);
-}
+};

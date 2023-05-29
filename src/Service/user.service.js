@@ -8,9 +8,11 @@ import { options } from "../config/config.js";
 import { createHash } from "../utils/utils.js";
 import { validatePassword } from "../utils/utils.js";
 
+
 const userManager = new UserMongoDao();
 
 export const signIn = async (first_name, last_name, email, age, password) => {
+  
   //confirmar que el correo no exista
   const chkEmail = await userManager.getUserByEmail(email);
   if (chkEmail) {
