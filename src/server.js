@@ -22,10 +22,14 @@ import { chatRouter } from "./Routes/chat.routes.js";
 import {ioSocketLaunch} from "./sockets/ioSockets.sockets.js"
 import { mockRouter } from "./Routes/mockDesigns.routes.js";
 import { errorHandler } from "./middlewares/ErrorsHandler.js";
+import { addLogger } from "./utils/logger.js";
 
 //express
 const app = express();
 const port = options.server.port;
+
+//logger
+app.use(addLogger);
 
 //connections port/se exporta pare visualizar en sockets
 export const httpServer = app.listen(port, () => console.log(`Server listening on port ${port}`));
