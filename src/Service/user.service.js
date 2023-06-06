@@ -7,6 +7,8 @@ import { createCart } from "./cart.service.js";
 import { options } from "../config/config.js";
 import { createHash } from "../utils/utils.js";
 import { validatePassword } from "../utils/utils.js";
+import { logger } from "../utils/logger.js";
+
 
 
 const userManager = new UserMongoDao();
@@ -47,13 +49,14 @@ export const login = async (email, password) => {
   if (userToLog) {
     if (validatePassword(password, userToLog)) {
       // console.log("si existe el correo");
-      // logger.info("si existe el correo")
+      logger.info("si existe el correo")
       return userToLog;
     } else {
+      logger.warning("password equivocado")
       return false
     }
   } else {
-    console.log("no existe el correo");
+    logger.error("no existe el correo");
     return false
   }
   return userToLog;

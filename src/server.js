@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import cors from "cors";
 import { Server } from "socket.io";
-import handlebars from "express-handlebars"
+import handlebars from "express-handlebars";
 
 //imports de propio
 import { options } from "./config/config.js";
@@ -22,7 +22,7 @@ import { chatRouter } from "./Routes/chat.routes.js";
 import {ioSocketLaunch} from "./sockets/ioSockets.sockets.js"
 import { mockRouter } from "./Routes/mockDesigns.routes.js";
 import { errorHandler } from "./middlewares/ErrorsHandler.js";
-import { addLogger } from "./utils/logger.js";
+import { addLogger, logger } from "./utils/logger.js";
 
 //express
 const app = express();
@@ -33,6 +33,7 @@ app.use(addLogger);
 
 //connections port/se exporta pare visualizar en sockets
 export const httpServer = app.listen(port, () => console.log(`Server listening on port ${port}`));
+logger.info(port)
 
 //websocket desde externo
 // ioSocket(httpServer);
@@ -42,6 +43,7 @@ export const httpServer = app.listen(port, () => console.log(`Server listening o
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/../../public"));
+//cors config
 app.use(
   cors({
     origin: "*",
