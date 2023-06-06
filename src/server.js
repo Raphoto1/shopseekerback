@@ -77,6 +77,17 @@ app.get("/test", async (req, res) => {
   res.send({ payload: "respuesta" });
 });
 
+//test logger
+app.get("/loggerTest", async (req,res) => {
+  req.logger.debug("nivel debug");
+  req.logger.http("nivel http");
+  req.logger.info("nivel info");
+  req.logger.warning("nivel warn");
+  req.logger.error("nivel error");
+  req.logger.fatal("nivel fatal");
+  res.send("prueba niveles")
+})
+
 
 //connection mongo
 const dbInstance = ConnectionDb.getInstance();

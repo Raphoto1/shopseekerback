@@ -4,7 +4,7 @@ import path from "path";
 //imports propios
 import { __dirname } from "../utils/utils.js";
 
-const enviroment = "dev";
+const enviroment = "prod";
 const pathEnvironment = enviroment === "prod" ? path.join(__dirname,"../../.env.production") : path.join(__dirname,"../../.env.development");
 console.log(`estas en entorno ${enviroment}`);
 dotenv.config({
@@ -18,6 +18,7 @@ const SECRET_TOKEN = process.env.SECRET_TOKEN;
 
 export const options = {
     server:{
+        env: enviroment,
         port:PORT,
         cookieToken:COOKIE_TOKEN,
         secretToken:SECRET_TOKEN
