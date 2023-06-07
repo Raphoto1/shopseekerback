@@ -79,7 +79,7 @@ export const deleteDesignCapture = async (req, res) => {
   try {
     //captura de datos
     const designId = req.body.designId;
-    console.log(designId);
+    req.logger.warning(`diseño a borrar${designId}`);
     //envio
     const result = await deleteDesign(designId);
     res.json({ status: "success", payLoad: result });

@@ -1,3 +1,4 @@
+import { logger } from "../utils/logger.js";
 import designModel from "./Mongo/models/designs.model.js";
 
 class DesignMongoDao {
@@ -61,7 +62,7 @@ class DesignMongoDao {
   async addDesign(dataDesLoad) {
     try {
       const designToPush = await designModel.create(dataDesLoad);
-      console.log("diseño agregado a db");
+      logger.info("diseño agregado a db");
       return designToPush;
     } catch (error) {
       return error;
@@ -82,10 +83,10 @@ class DesignMongoDao {
   async deleteDesign(designId) {
     try {
       const chkDesign = await this.chkDesign(designId);
-      console.log(chkDesign);
+      logger.warning(`diseño a eliminar${chkDesign}`);
       if (chkDesign) {
         const designToDelete = await designModel.findByIdAndDelete(designId);
-        console.log("diseño borrado");
+        logger.warning("diseño borrado");
         return designToDelete;
       }else{
         return "design not found";

@@ -1,5 +1,6 @@
 import CartMongoDao from "../Dao/cart.dao.js";
 import DesignMongoDao from "../Dao/designs.dao.js";
+import { addLogger, logger } from "../utils/logger.js";
 import { getDesignById, updateDesign } from "./designs.service.js";
 import { createNewTicket } from "./ticket.service.js";
 
@@ -24,7 +25,6 @@ export const deleteCart = (cartId) => {
 
 export const addDesignToCart = (cartId, desId, quantity) => {
   //confirmar existencia del diseño PENDIENTE
-  
   const designToAdd = cartManager.addDesignToCart(cartId, desId, quantity);
   return designToAdd;
 };
@@ -55,7 +55,6 @@ export const cartPurchase = async (cartId, userId) => {
   const chkArray = [];
   const failedDesigns = [];
   for (let i = 0; i < designCodes.length; i++) {
-    console.log("paso por el for " + i);
     const designToWork = designCodes[i];
     const singleDesign = await getDesignById(designCodes[i].designId);
     const stockAvailable = singleDesign.stock;
@@ -66,10 +65,10 @@ export const cartPurchase = async (cartId, userId) => {
         quanty: designToWork.designQuanty,
       };
       chkArray.push(definitiveCart);
-      await updateDesign(e.designId,"stock",newStock);
-      console.log("si alcanza para enviar");
+      await updateDesign(e.designId, "stock", newStock);
+      logger.info("si alcanza para enviar");
     } else {
-      console.log("no alcanza para enviar");
+      logger.info("no alcanza para enviar");
       const failedToAdd = {
         designId: designToWork.designId,
         quanty: designToWork.designQuanty,
@@ -78,23 +77,20 @@ export const cartPurchase = async (cartId, userId) => {
       failedDesigns.push(failedToAdd);
     }
   }
-  //empaquetar y enviar los productos que no se pudieron comprar
-  console.log("termina la iteracion");
-  //se eliminan los articulos que se compraron del carrito
-  console.log(chkArray);
-    chkArray.forEach((e) =>{
-      cartManager.deleteDesign(cartId,e.designId);
-    })
+  logger.info(`resultados del carrito${chkArray}`);
+  chkArray.forEach((e) => {
+    cartManager.deleteDesign(cartId, e.designId);
+  });
 
-    if(chkArray===[]){console.log("chk esta vacio");}
+  if (chkArray === []) {
+    logger.warning("chk esta vacio");
+  }
   const packResponse = async () => {
-    
     const payload = {
       correctDesigns: await createNewTicket(cartId, userId, chkArray),
       failedDesigns: failedDesigns,
     };
     return payload;
   };
-
   return packResponse();
 };

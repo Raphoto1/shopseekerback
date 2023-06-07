@@ -46,7 +46,7 @@ export const signInCapture = async (req, res) => {
 export const loginCapture = async (req, res) => {
   const { email, password } = req.body;
   const result = await login(email, password);
-  // req.logger.info(result);
+  req.logger.info(result);
   if (result === false) {
     res.json({ status: "failed", payLoad: "email or pass failed" });
   } else {

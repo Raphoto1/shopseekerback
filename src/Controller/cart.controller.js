@@ -17,6 +17,7 @@ import { profileCall } from "./user.controller.js";
 import { CustomError } from "../Service/Error/customError.service.js";
 import { generateCartErrorInfo } from "../Service/Error/cartErrorInfo.js";
 import { EError } from "../enums/EError.js";
+import { logger } from "../utils/logger.js";
 
 export const createCartCapture = async (req, res) => {
   const result = await createCart();
@@ -30,7 +31,7 @@ export const getAllCartsCapture = async (req, res) => {
 
 export const getCartByIdCapture = async (req, res) => {
   const cartId = req.params.cartId;
-  console.log(cartId);
+  logger.info(cartId);
   const result = await getAllCarts(cartId);
   res.json({ status: "success", payLoad: result });
 };
