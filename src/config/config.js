@@ -5,7 +5,7 @@ import path from "path";
 import { __dirname } from "../utils/utils.js";
 
 const enviroment = "dev";
-const pathEnvironment = enviroment === "prod" ? path.join(__dirname,"../../.env.production") : path.join(__dirname,"../../.env.development");
+const pathEnvironment = enviroment === "prod" ? path.join(__dirname,"../../production.env") : path.join(__dirname,"../../development.env");
 console.log(`estas en entorno ${enviroment}`);
 dotenv.config({
     path: pathEnvironment
