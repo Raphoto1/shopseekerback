@@ -15,6 +15,9 @@ const PORT = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
 const COOKIE_TOKEN = process.env.COOKIE_TOKEN;
 const SECRET_TOKEN = process.env.SECRET_TOKEN;
+const SECRET_TOKEN_MAIL = process.env.SECRET_TOKEN_MAIL;
+const EMAIL_ADMIN = process.env.EMAIL_ADMIN;
+const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
 
 export const options = {
     server:{
@@ -25,5 +28,10 @@ export const options = {
     },
     mongo:{
         url:MONGO_URL
+    },
+    gmail: {
+        emailToken: SECRET_TOKEN_MAIL,
+        emailAdmin: EMAIL_ADMIN,
+        emailPass:EMAIL_PASSWORD
     }
 }

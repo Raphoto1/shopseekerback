@@ -16,6 +16,11 @@ const validatePassword = (password, user) => {
   return bcrypt.compareSync(password, user.password);
 };
 
+//passRecovery
+const generateEmailToken = (password, expireTime) => {
+  const token = jwt.sign({email,options})
+}
+
 //faker
 
 const customFaker = new Faker({
@@ -37,6 +42,8 @@ const generateDesigns = () => {
     photos: helpers.arrayElement([`img1.jpg`,`img2.jpg`, `img3.jpg`],{min:1,max:3})
   };
 };
+
+
 
 //exports
 export { __filename, __dirname, createHash, validatePassword, generateDesigns };
