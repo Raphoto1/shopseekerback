@@ -23,10 +23,18 @@ export const deleteCart = (cartId) => {
   return cartToDelete;
 };
 
-export const addDesignToCart = (cartId, desId, quantity) => {
+export const addDesignToCart = async (cartId, desId, desOwner, quantity) => {
   //confirmar existencia del diseño PENDIENTE
-  const designToAdd = cartManager.addDesignToCart(cartId, desId, quantity);
-  return designToAdd;
+  const designToChk = await designManager.chkDesign(desId);
+  const designOwner = designToChk.owner;
+  console.log(desOwner);
+  if (designOwner == desOwner) {
+    console.log("no puedes agregar Tus propios productos");
+    return "no puedes agregar Tus propios productos";
+  } else {
+    const designToAdd = cartManager.addDesignToCart(cartId, desId, quantity);
+    return designToAdd;
+  }
 };
 
 export const deleteDesignFromCart = (cartId, desId) => {

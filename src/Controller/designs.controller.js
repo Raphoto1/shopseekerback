@@ -1,11 +1,5 @@
 //imports propios
-import {
-  getDesigns,
-  addDesignPack,
-  deleteDesign,
-  getDesignById,
-  updateDesign,
-} from "../Service/designs.service.js";
+import { getDesigns, addDesignPack, deleteDesign, getDesignById, updateDesign } from "../Service/designs.service.js";
 import { CustomError } from "../Service/Error/customError.service.js";
 import { generateDesignsErrorInfo } from "../Service/Error/designsErrorInfo.js";
 import { EError } from "../enums/EError.js";
@@ -40,7 +34,7 @@ export const addDesignCapture = async (req, res) => {
     const shops = req.body.shops;
     const photos = req.body.photos;
     //capturar data del user
-    const userData = req.user
+    const userData = req.user;
     const owner = userData._id;
     //EError
     if (!code || !title || !price || !stock || !shops) {
@@ -52,17 +46,7 @@ export const addDesignCapture = async (req, res) => {
       });
     }
     //envio
-    const result = await addDesignPack(
-      code,
-      title,
-      description,
-      category,
-      price,
-      stock,
-      shops,
-      photos,
-      owner
-    );
+    const result = await addDesignPack(code, title, description, category, price, stock, shops, photos, owner);
     res.json({ status: "success", payLoad: result });
   } catch (error) {
     res.status(404).send({ error: `error desde controller${error}` });
@@ -74,8 +58,23 @@ export const updateDesignCapture = async (req, res) => {
     const desId = req.body.desId;
     const value = req.body.value;
     const data = req.body.data;
-    const result = await updateDesign(desId, value, data);
-    res.json({ status: "success", payLoad: result });
+    const user = req.user;
+    //se revisa si es premium para limitar
+    if (user.role === "premium") {
+      const userId = user._id;
+      const designToChk = await getDesignById(designId);
+      const chkDesignOwner = designToChk.owner;
+      if (chkDesignOwner == userId) {
+        const result = await updateDesign(desId, value, data);
+        res.json({ status: "success", payLoad: result });
+      } else {
+        console.log("no se puede actualizar porque no te pertenece este diseño");
+        res.json({ status: "Failed", message: "no se puede actualizar porque no te pertenece este diseño" });
+      }
+    } else {
+      const result = await updateDesign(desId, value, data);
+      res.json({ status: "success", payLoad: result });
+    }
   } catch (error) {
     res.status(404).send({ error: `error desde controller ${error}` });
   }
@@ -84,11 +83,28 @@ export const updateDesignCapture = async (req, res) => {
 export const deleteDesignCapture = async (req, res) => {
   try {
     //captura de datos
+    const user = req.user;
     const designId = req.body.designId;
     req.logger.warning(`diseño a borrar${designId}`);
-    //envio
-    const result = await deleteDesign(designId);
-    res.json({ status: "success", payLoad: result });
+    //filtrar si el dueño es premium a partir de su propiedad 64925e5e4b9b5074d4c8b183
+    if (user.role === "premium") {
+      const userId = user._id;
+      const designToChk = await getDesignById(designId);
+      const chkDesignOwner = designToChk.owner;
+      console.log(chkDesignOwner);
+      if (chkDesignOwner == userId) {
+        console.log("se borra");
+        const result = await deleteDesign(designId, userId);
+        res.json({ status: "success", payLoad: result });
+      } else {
+        console.log("no se puede borrar porque no te pertenece este diseño");
+        res.json({ status: "Failed", message: "no se puede borrar porque no te pertenece este diseño" });
+      }
+    } else {
+      //envio
+      const result = await deleteDesign(designId);
+      res.json({ status: "success", payLoad: result });
+    }
   } catch (error) {
     res.status(404).send({ error: "error desde controller" });
   }

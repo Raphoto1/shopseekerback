@@ -19,15 +19,16 @@ function logout(){
     return logout
 }
 
-function getProfile(){
-    const profile = fetch("http://localhost:8080/api/user/profile")
+async function getProfile(){
+    const profile = await fetch("http://localhost:8080/api/user/profile")
     .then((res) => res.json())
-    .then((data) => data.payLoad);
+        .then((data) => data.payLoad);
     return profile
 }
 
 async function addDesignToCart (desId) {
     let user = await getProfile();
+    console.log(user);
     let cart = user.cart[0]._id
     console.log(cart); 
     const pushToCart = await addToCart(cart,desId)

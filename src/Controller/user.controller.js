@@ -79,7 +79,9 @@ export const loginCapture = async (req, res) => {
 };
 
 export const profileCall = async (req, res) => {
-  const userInfo = await getUserToken()
+  // const userInfo = await getUserToken()
+  const userInfo = req.user
+  console.log(userInfo);
   res.json({ status: "success", payLoad: userInfo });
 };
 

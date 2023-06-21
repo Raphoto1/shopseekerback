@@ -11,7 +11,7 @@ const designsRouter = Router();
 designsRouter.get("/",authenticate("authJWT"),getAllDesigns);
 designsRouter.get("/filtered", getDesignsFiltered);
 designsRouter.get("/:id", getDesignByIdCapture);
-designsRouter.post("/",authenticate("authJWT"), authenticate("authJWT"), authorize("admin"), addDesignCapture);
+designsRouter.post("/",authenticate("authJWT"), authenticate("authJWT"), authorize(["admin", "premium"]), addDesignCapture);
 designsRouter.put("/",authenticate("authJWT"), authorize(["admin", "premium"]), updateDesignCapture);
 designsRouter.delete("/",authenticate("authJWT"), authorize(["admin", "premium"]), deleteDesignCapture);
 designsRouter.get("/filtered/live", getDesignsLive);

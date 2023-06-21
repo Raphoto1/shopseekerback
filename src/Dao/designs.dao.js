@@ -41,7 +41,7 @@ class DesignMongoDao {
   //getById
   async getDesignById(designId) {
     try {
-      const design = await designModel.findById(designId);
+      const design = await designModel.findById(designId).lean();
       return design;
     } catch (error) {
       return error;

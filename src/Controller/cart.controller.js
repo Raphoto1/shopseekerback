@@ -46,16 +46,10 @@ export const addDesignToCartCapture = async (req, res) => {
   const cartId = req.params.cartId;
   const desId = req.params.desId;
   const quantity = req.body.quantity;
-  //EError
-  if (!desId || !quantity) {
-    CustomError.createError({
-      name: "User create error",
-      cause: generateCartErrorInfo(desId, quantity),
-      message: "Error al crear el usuario",
-      errorCode: EError.INVALID_PARAMS,
-    });
-  }
-  const result = await addDesignToCart(cartId, desId, quantity);
+  const user = req.user;
+  const desOwner = user._id
+  
+  const result = await addDesignToCart(cartId, desId, desOwner, quantity);
   res.json({ status: "success", payLoad: result });
 };
 
