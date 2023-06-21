@@ -23,7 +23,6 @@ const validatePassword = (password, user) => {
 //passRecovery
 const generateEmailToken = (email, expireTime) => {
   const token = jwt.sign({ email }, options.gmail.emailToken, { expiresIn: expireTime });
-  console.log(token);
   return token;
 }
 

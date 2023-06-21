@@ -57,7 +57,6 @@ export const renderProfile = async (req, res) => {
     let token = req.cookies[options.server.cookieToken];
   passport.authenticate("jwt", { session: false });
   const userData = jwt.verify(token, options.server.secretToken);
-  console.log(userData);
     res.render("profile", {userData});
   } catch (error) {
     console.log(error);

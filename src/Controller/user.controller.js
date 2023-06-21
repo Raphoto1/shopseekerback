@@ -79,10 +79,8 @@ export const loginCapture = async (req, res) => {
 };
 
 export const profileCall = async (req, res) => {
-  let token = req.cookies[options.server.cookieToken];
-  passport.authenticate("jwt", { session: false });
-  const info = jwt.verify(token, options.server.secretToken);
-  res.json({ status: "success", payLoad: info });
+  const userInfo = await getUserToken()
+  res.json({ status: "success", payLoad: userInfo });
 };
 
 export const logoutCapture = async (req, res, next) => {

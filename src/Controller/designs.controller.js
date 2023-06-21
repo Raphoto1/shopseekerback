@@ -9,6 +9,8 @@ import {
 import { CustomError } from "../Service/Error/customError.service.js";
 import { generateDesignsErrorInfo } from "../Service/Error/designsErrorInfo.js";
 import { EError } from "../enums/EError.js";
+import { getUserToken } from "../Service/user.service.js";
+import { logger } from "../utils/logger.js";
 
 export const getAllDesigns = async (req, res) => {
   const results = await getDesigns();
@@ -28,7 +30,7 @@ export const getDesignByIdCapture = async (req, res) => {
 
 export const addDesignCapture = async (req, res) => {
   try {
-    //captura de data
+    //captura de data de design
     const code = Number(req.body.code);
     const title = req.body.title;
     const description = req.body.description;
@@ -37,6 +39,9 @@ export const addDesignCapture = async (req, res) => {
     const stock = Number(req.body.stock);
     const shops = req.body.shops;
     const photos = req.body.photos;
+    //capturar data del user
+    const userData = req.user
+    const owner = userData._id;
     //EError
     if (!code || !title || !price || !stock || !shops) {
       CustomError.createError({
@@ -55,7 +60,8 @@ export const addDesignCapture = async (req, res) => {
       price,
       stock,
       shops,
-      photos
+      photos,
+      owner
     );
     res.json({ status: "success", payLoad: result });
   } catch (error) {

@@ -20,7 +20,8 @@ export const addDesignPack = async (
   price,
   stock,
   shops,
-  photos
+  photos,
+  owner
 ) => {
   //revisar que el codigo no se repita en otro diseño
   const chkCode = await designManager.getDesignByCode(code);
@@ -37,6 +38,7 @@ export const addDesignPack = async (
       stock,
       shops,
       photos,
+      owner
     };
     const designToAdd = designManager.addDesign(designPack);
     return designToAdd;
