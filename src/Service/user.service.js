@@ -93,3 +93,22 @@ export const updatePass = async (email, newPassword) => {
     return updatedDataToPush
   }
 }
+
+export const updateRole = async (uid) => {
+  //verificar que el ususario existe
+  const userToUpdate = await userManager.getUser(uid)
+  const userRole = userToUpdate.role
+  if (userRole == "user") {
+    console.log("eres user y cambiaras a premium");
+    const updateRoleUser = await userManager.updateUserRole(uid, "premium")
+    return updateRoleUser
+  } else if (userRole == "premium") {
+    console.log("eres premium y cambiaras a user");
+    const updateRolePremium = await userManager.updateUserRole(uid, "user")
+    return updateRolePremium
+  } else {
+    console.log("debes ser admin y no puedes cambiar a premium o user");
+  }
+  console.log(userRole);
+  return userToUpdate
+}

@@ -15,7 +15,10 @@ class UserMongoDao {
   }
 
   //getUser By Id
-  async getUser(userId) {}
+  async getUser(userId) {
+    const userById = await userModel.findById(userId);
+    return userById
+  }
 
   //getUser by email
   async getUserByEmail(email) {
@@ -37,6 +40,11 @@ class UserMongoDao {
     }
   }
   //modificar user
+
+  async updateUserRole(userId, dataUpdate) {
+    const update = await userModel.findByIdAndUpdate(userId, { role: dataUpdate })
+    return update
+  }
 }
 
 export default UserMongoDao;

@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 //importPropio
-import { signIn, login, getUserToken, chkUserMail, updatePass } from "../Service/user.service.js";
+import { signIn, login, getUserToken, chkUserMail, updatePass, updateRole } from "../Service/user.service.js";
 import { options } from "../config/config.js";
 import {CustomError} from "../Service/Error/customError.service.js"
 import { generateUserErrorInfo } from "../Service/Error/userErrorInfo.js";
@@ -127,4 +127,15 @@ export const resetPasswordCapture = async (req,res) => {
   } catch (error) {
     res.send(error.message);
   }
+}
+
+export const changeRoleCapture = async (req, res) => {
+  const uid = req.params.uid
+  try {
+    const RoleChange = await updateRole(uid);
+    res.json({ status: "success", payLoad: RoleChange });
+  } catch (error) {
+    res.send(error.message)
+  }
+  
 }
