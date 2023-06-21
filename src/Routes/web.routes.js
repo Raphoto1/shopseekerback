@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  forgotPassword,
   renderAddDesign,
   renderCart,
   renderChat,
@@ -8,6 +9,7 @@ import {
   renderLogin,
   renderProfile,
   renderSignin,
+  resetPass,
 } from "../Controller/web.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { authorize } from "../middlewares/authorize.js";
@@ -24,7 +26,9 @@ webRouter.get("/designs/:pid");
 webRouter.get("/cart/:cid");
 webRouter.get("/chat", authenticate("authJWT"), authorize("user"), renderChat);
 webRouter.get("/addDesign", authenticate("authJWT"), authorize("admin"), renderAddDesign);
-webRouter.get("/purchase")
+webRouter.get("/purchase");
+webRouter.get("/forgot-password", forgotPassword);
+webRouter.get("/reset-password", resetPass);
 
 //rutas vistas autenticacion
 

@@ -3,11 +3,14 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 //importPropio
-import { signIn, login, getUserToken } from "../Service/user.service.js";
+import { signIn, login, getUserToken, chkUserMail, updatePass } from "../Service/user.service.js";
 import { options } from "../config/config.js";
 import {CustomError} from "../Service/Error/customError.service.js"
 import { generateUserErrorInfo } from "../Service/Error/userErrorInfo.js";
 import { EError } from "../enums/EError.js";
+import { generateEmailToken, verifyEmailToken } from "../utils/utils.js";
+import { sendRecoveryPass } from "../utils/email.js";
+import { logger } from "../utils/logger.js";
 
 export const signInCapture = async (req, res) => {
   const { first_name, last_name, email, age, password } = req.body;
@@ -87,3 +90,41 @@ export const logoutCapture = async (req, res, next) => {
   .clearCookie(`${options.server.cookieToken}`)
   .redirect(303,"/login");
 };
+
+export const forgotPassCapture = async (req, res) => {
+  try {
+    const {email} = req.body;
+    const user = await chkUserMail(email);
+    if (user===false) {
+      return res.send(`<div>Error, <a href="/forgot-password">Intente de nuevo</a></div>`);
+    }
+    const token = generateEmailToken(email, 15 * 60);
+    console.log(token);
+    await sendRecoveryPass(email, token);
+    res.send("se envio un correo a su cuenta para restablecer la contraseña, regresar <a href='/login'>al login</a>");
+  } catch (error) {
+    res.send(`<div>Error, <a href="/forgot-password">Intente de nuevo</a></div>`)
+  }
+}
+
+export const resetPasswordCapture = async (req,res) => {
+  try {
+    const token = req.query.token;
+    const { email, newPassword } = req.body;
+    //valodar token
+    const validEmailToken = verifyEmailToken(token);
+    if (!validEmailToken) {
+      return res.send(`El enlace ya no es valido, genere un nuevo enlace para recuperar la contraseña <a href="/forgot-password" >Recuperar contraseña</a>`)
+    }
+    // verificar email con anterior clave
+    const passToChk = await login(email, newPassword);
+    if (passToChk) {
+      return res.send("No puedes usar la misma contraseña");
+    }
+    const passToUpdate = await updatePass(email, newPassword);
+    logger.warning(passToUpdate);
+    res.render("login",{message:"contraseña actualizada"});
+  } catch (error) {
+    res.send(error.message);
+  }
+}

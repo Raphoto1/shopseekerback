@@ -94,3 +94,12 @@ export const renderChat = async (req,res) =>{
 export const renderAddDesign = async(req,res) =>{
   res.render("adddesign")
 }
+
+export const forgotPassword = async (req, res) => {
+  res.render("forgotPass")
+}
+
+export const resetPass = async (req, res) => {
+  const token = req.query.token;
+  res.render("resetPassword", { token });
+}

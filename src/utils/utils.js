@@ -1,7 +1,11 @@
+//imports de app
 import path from "path";
 import { fileURLToPath } from "url";
 import bcrypt from "bcrypt";
 import { Faker, en } from "@faker-js/faker";
+import jwt from "jsonwebtoken"
+//imports propios
+import { options } from "../config/config.js";
 
 //dirname y file
 const __filename = fileURLToPath(import.meta.url);
@@ -17,8 +21,20 @@ const validatePassword = (password, user) => {
 };
 
 //passRecovery
-const generateEmailToken = (password, expireTime) => {
-  const token = jwt.sign({email,options})
+const generateEmailToken = (email, expireTime) => {
+  const token = jwt.sign({ email }, options.gmail.emailToken, { expiresIn: expireTime });
+  console.log(token);
+  return token;
+}
+
+const verifyEmailToken = (token) => {
+  try {
+    const info = jwt.verify(token, options.gmail.emailToken);
+    return info.email;
+  } catch (error) {
+    console.log(error.message);
+    return null
+  }
 }
 
 //faker
@@ -46,4 +62,4 @@ const generateDesigns = () => {
 
 
 //exports
-export { __filename, __dirname, createHash, validatePassword, generateDesigns };
+export { __filename, __dirname, createHash, validatePassword, generateDesigns, generateEmailToken, verifyEmailToken };
