@@ -1,0 +1,7 @@
+paths:
+  /api/cart/:
+    get:
+      sumary: Obtener todos los carritos
+      tags:
+        - cart
+      responses:

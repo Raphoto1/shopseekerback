@@ -8,6 +8,7 @@ import session from "express-session";
 import cors from "cors";
 import { Server } from "socket.io";
 import handlebars from "express-handlebars";
+import swaggerUi from "swagger-ui-express";
 
 //imports de propio
 import { options } from "./config/config.js";
@@ -23,6 +24,8 @@ import {ioSocketLaunch} from "./sockets/ioSockets.sockets.js"
 import { mockRouter } from "./Routes/mockDesigns.routes.js";
 import { errorHandler } from "./middlewares/ErrorsHandler.js";
 import { addLogger, logger } from "./utils/logger.js";
+import { swaggerOptions } from "./config/docConfig.js";
+import swaggerJSDoc from "swagger-jsdoc";
 
 //express
 const app = express();
@@ -73,6 +76,10 @@ app.use("/api/user", userRouter);
 app.use("/mockingdesigns", mockRouter);
 //rutas secundarias
 app.use("/chat", chatRouter);
+//ruta Documentacion
+const spects = swaggerJSDoc(swaggerOptions);
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(spects));
+
 
 //test cors
 app.get("/test", async (req, res) => {
