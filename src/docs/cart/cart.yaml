@@ -61,7 +61,7 @@ paths:
           description: Error del servidor
   /api/cart/{cartId}/design/{desId}:
     put:
-      summary: agregar diseño al carrito
+      summary: agregar diseño al carrito se debe estar autenticado
       tags:
         - cart
       parameters:
@@ -82,6 +82,28 @@ paths:
           description: se muestra respuesta de Db
         "500":
           description: Error del servidor
+    delete:
+        summary: eliminar diseño del carrito se debe estar autenticado
+        tags:
+          - cart
+        parameters:
+        - in: path
+          name: cartId
+          required: true
+          description: el id del carrito
+          schema:
+          $type: string
+        - in: path
+          name: desId
+          required: true
+          description: el id del diseño
+          schema:
+          $type: string
+        responses:
+          "200":
+            description: se muestra respuesta de Db
+          "500":
+            description: Error del servidor
                  
 
 components:
