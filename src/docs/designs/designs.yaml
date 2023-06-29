@@ -1,7 +1,7 @@
 paths:
   /api/designs/:
     get:
-      sumary: Obtener todos los diseños
+      summary: Obtener todos los diseños
       tags:
         - designs
       responses:
@@ -16,7 +16,7 @@ paths:
         "500":
           description: Error del servidor
     post:
-      sumary: agregar diseño SE NECESITA JWT
+      summary: agregar diseño SE NECESITA JWT
       tags:
         - designs
       requestBody:
@@ -39,6 +39,57 @@ paths:
                     $ref: "#components/schemas/design"
         "500":
           description: Error del servidor
+    delete:
+      summary: eliminar un diseño por el Id
+      tags:
+        - designs
+      requestBody:
+        required: true
+        content:
+          aplication/json:
+            schema:
+              $ref: "#components/requestBodies/deleteDesign"
+      responses:
+        "200":
+          description: el diseño se borra
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  payload:
+                    $ref: "#components/schemas/design"
+                
+
+  /ap/designs/{:id}:
+    get:
+      summary: Obtener un diseño por el ID
+      tags:
+       - designs
+      parameters:
+        -name: id
+        in: path
+        required: true
+        description: id es el Id del diseño a buscar
+        schema:
+          $type: string
+      responses:
+        "200":
+          description: se muestra el diseño solicitado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  payload:
+                    $ref: "#components/schemas/design"
+        "500":
+          description: Error del servidor
+
 components:
   schemas:
     design:
@@ -75,7 +126,7 @@ components:
           type: string
           description: Id del Owner obtenido desde el user data 
       example:
-        _id: as7867asd09as8d7a
+        _id: 64568057a7d77c180696ec3f
         code: 9
         title: test de docs
         description: description test de docs
@@ -126,3 +177,10 @@ components:
         shops: [{Shop1.com},{shop2.com},{shop3.com}]
         photos: [{photo1.png},{photo2.png},{photo3.png}]
         owner: sad875sdf98asdf68
+    deleteDesign:
+      type: object
+      properties:
+        id: string
+        description: Id del diseño
+      example:
+        id: ysdafg43h5nb345345jh
