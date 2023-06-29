@@ -63,14 +63,14 @@ paths:
                     $ref: "#components/schemas/design"
                 
 
-  /ap/designs/{:id}:
+  /api/designs/{id}:
     get:
       summary: Obtener un diseño por el ID
       tags:
        - designs
       parameters:
-        -name: id
-        in: path
+      - in: path
+        name: id
         required: true
         description: id es el Id del diseño a buscar
         schema:

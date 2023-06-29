@@ -1,7 +1,108 @@
 paths:
   /api/cart/:
     get:
-      sumary: Obtener todos los carritos
+      summary: Obtener todos los carritos
       tags:
         - cart
       responses:
+        "200":
+          description: se cargan todos los carritos
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/carts"
+        "500":
+          description: Error del servidor
+    post:
+      summary: crear carrito
+      tags:
+        - cart
+      responses:
+        "200":
+          description: se crea el carrito
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  payload:
+                   $ref: "#components/schemas/carts"
+        "500":
+          description: Error del servidor
+  /api/cart/clear/{cartId}:
+    delete:
+      summary: limpiar el carrito
+      tags:
+        - cart
+      parameters:
+      - in: path
+        name: cartId
+        required: true
+        description: el id del carrito
+        schema:
+          $type: string
+      responses:
+        "200":
+          description: se muestra respuesta de DB
+          content:
+            application/json:
+              schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                payload:
+                  type: string
+        "500":
+          description: Error del servidor
+  /api/cart/{cartId}/design/{desId}:
+    put:
+      summary: agregar diseño al carrito
+      tags:
+        - cart
+      parameters:
+      - in: path
+        name: cartId
+        required: true
+        description: el id del carrito
+        schema:
+         $type: string
+      - in: path
+        name: desId
+        required: true
+        description: el id del diseño
+        schema:
+         $type: string
+      responses:
+        "200":
+          description: se muestra respuesta de Db
+        "500":
+          description: Error del servidor
+                 
+
+components:
+  schemas:
+    carts:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id del carrito
+        designs:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: ObjectId
+                description: id del diseño
+              quantity:
+                type: Number
+                description: cantidad de ese diseño
+      example:
+        _id: 768sdf78ad56sf8
+        designs: [{design: 67dsf56asdf,quantity: 4}, {design: 67sdaf587asdf98, quantity: 7}]
