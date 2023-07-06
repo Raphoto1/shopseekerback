@@ -78,7 +78,7 @@ class CartMongoDao {
   //clear cart
   async clearCart(cartId) {
     try {
-      logger.warn(`carrito a borrar${cartId}`);
+      logger.warning(`carrito a borrar${cartId}`);
       let cartToClear = await cartModel.updateOne(
         { _id: `${cartId}` },
         { $pull: { designs: {} } }

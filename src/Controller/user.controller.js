@@ -72,14 +72,14 @@ export const loginCapture = async (req, res) => {
       { expiresIn: "24h" }
     );
     res
-      .cookie(options.server.cookieToken, token, { httpOnly: true })
-      // .json({ status: "success", payLoad: result })
-      .redirect("/profile");
+      .cookie(options.server.cookieToken, token, { httpOnly: true, sameSite: "none", secure: true })
+      .json({ status: "success"})
+      // .redirect("http://localhost:3000/profile");
+      // .redirect("/profile");
   }
 };
 
 export const profileCall = async (req, res) => {
-  // const userInfo = await getUserToken()
   const userInfo = req.user
   console.log(userInfo);
   res.json({ status: "success", payLoad: userInfo });

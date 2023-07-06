@@ -7,7 +7,7 @@ const userRouter = Router();
 //rutas users
 userRouter.post("/signin",signInCapture);
 userRouter.post("/login", loginCapture);
-userRouter.get("/profile", authenticate("authJWT"), profileCall);
+userRouter.get("/profile",authenticate("authJWT"), profileCall);
 userRouter.post("/logout", logoutCapture);
 userRouter.post("/forgot-password", forgotPassCapture);
 userRouter.post("/reset-password", resetPasswordCapture);

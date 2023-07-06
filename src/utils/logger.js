@@ -62,7 +62,7 @@ export const addLogger = (req, res, next) => {
     req.logger = loggerProd;
   }
   req.logger.http(
-    `${req.method} en ${req.url} - ${new Date().toLocaleTimeString}`
+    `${req.method} en ${req.url} - ${new Date().toLocaleTimeString()}`
   );
   next();
 };

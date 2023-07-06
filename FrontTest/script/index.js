@@ -11,7 +11,7 @@ function getDesigns(){
 }
 
 function getProfile(){
-    fetch("http://localhost:8080/api/user/profile")
+    fetch("http://localhost:8080/api/user/profile", {credentials: "include"})
     .then((res) => res.json())
     .then((data) => console.log(data.payLoad));
 }
