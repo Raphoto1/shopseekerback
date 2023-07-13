@@ -22,7 +22,6 @@ form.onsubmit = async (e) => {
         .then((data) => {
             console.log(data.status);
             if (data.status == "success") {
-                console.log("si paso");
                 window.location.href = "http://127.0.0.1:5500/FrontTest/pages/profile.html"
             }
     });
