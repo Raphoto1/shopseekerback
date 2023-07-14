@@ -139,3 +139,11 @@ export const changeRoleCapture = async (req, res) => {
   }
   
 }
+
+export const picTest = async (req, res) => {
+  try {
+    res.json({status: "success"})
+  } catch (error) {
+    res.send(error.message)
+  }
+}
