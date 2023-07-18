@@ -26,6 +26,27 @@ const userSchema = new mongoose.Schema({
         ],
         default:[],
     },
+    documents: {
+        type: [
+            {
+                name: { type: String, required: true },
+                reference: { type: String, required: true },
+                status: {
+                    type: String,
+                    required: true,
+                    enums: ["completo", "incompleto", "pendiente"],
+                    default:"pendiente"
+                },
+            }
+        ],
+        default:[]
+    },
+    last_connection:{
+        type: Date,
+        default:null
+    },
+    
+    avatar:{type:String, default:""}
 })
 
 const userModel = mongoose.model("users", userSchema);

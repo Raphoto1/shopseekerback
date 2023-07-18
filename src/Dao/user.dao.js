@@ -26,10 +26,18 @@ class UserMongoDao {
     return userToChk;
   }
 
-  //actualizar user
+  //actualizar userPassword
   async updateUserPass(email, dataUpdate) {
     const update = await userModel.findOneAndUpdate({ email: email }, dataUpdate);
     return update;
+  }
+
+  //actualizar user
+  async updateUserDocu(uId,dbKey, dataUpdate) {
+    console.log(dataUpdate);
+    
+    const update = await userModel.findByIdAndUpdate(uId, { "documents": dataUpdate });
+    return update
   }
 
   //eliminar user

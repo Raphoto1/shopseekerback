@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 //importPropio
-import { signIn, login, getUserToken, chkUserMail, updatePass, updateRole } from "../Service/user.service.js";
+import { signIn, login, getUserToken, chkUserMail, updatePass, updateRole, chkUserId, updateUserDocuService } from "../Service/user.service.js";
 import { options } from "../config/config.js";
 import {CustomError} from "../Service/Error/customError.service.js"
 import { generateUserErrorInfo } from "../Service/Error/userErrorInfo.js";
@@ -14,6 +14,7 @@ import { logger } from "../utils/logger.js";
 
 export const signInCapture = async (req, res) => {
   const { first_name, last_name, email, age, password } = req.body;
+  const avatar = req.files[`avatar`]
   //EError
   if (!first_name || !last_name || !email || !age || !password) {
     CustomError.createError({
@@ -139,6 +140,44 @@ export const changeRoleCapture = async (req, res) => {
   }
   
 }
+
+export const documents = async (req, res) => {
+  try {
+    //revisar user
+    const userId = req.params.uid;
+    const user = await chkUserId(userId);
+    if (user) {
+      //revisar documentos
+      const identificacion = req.files["identificacion"]?.[0] || null;
+      const domicilio = req.files["domicilio"]?.[0] || null;
+      const estadoDeCuenta = req.files["estadoDeCuenta"]?.[0] || null;
+      const docs = [];
+      identificacion ? docs.push({ name: "identificacion", reference: identificacion.filename, status:"completo" }) : docs.push({ name: "identificacion", reference: null, status:"pendiente" });
+      domicilio ? docs.push({ name: "domicilio", reference: domicilio.filename, status:"completo" }) : docs.push({ name: "domicilio", reference: null, status:"pendiente" });
+      estadoDeCuenta ? docs.push({ name: "estadoDeCuenta", reference: estadoDeCuenta.filename, status:"completo" }) : docs.push({ name: "estadoDeCuenta", reference: null, status:"pendiente" });
+      const chkDocs = docs.filter(docu => docu.reference == null);
+      //seagrega la info al user
+      const dbKey = "documents"
+      const docsUpdate = await updateUserDocuService(userId, dbKey, docs);
+      console.log(docsUpdate);
+      let responseFaltantes = []
+      let response = ""
+      if (chkDocs.length >= 1) {
+        const faltantes = chkDocs.forEach(e => responseFaltantes.push(e.name));
+        response = `faltan los documentos ${responseFaltantes}`
+      } else {
+        response = "todos los documentos cargados"
+      }
+      res.json({status:"success", message:"documentos agregados", payload:response })
+    } else {
+      res.json({status:"error", message:"el usuario no existe"})
+    }
+  } catch (error) {
+    res.json({status:"error", message:"error al cargar los documentos"})
+  }
+}
+
+//test
 
 export const picTest = async (req, res) => {
   try {

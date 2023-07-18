@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authenticate } from "../middlewares/authenticate.js";
-import { changeRoleCapture, forgotPassCapture, loginCapture, logoutCapture, picTest, profileCall, resetPasswordCapture, signInCapture } from "../Controller/user.controller.js";
-import { uploaderProfile } from "../utils/multer.js";
+import { changeRoleCapture, documents, forgotPassCapture, loginCapture, logoutCapture, picTest, profileCall, resetPasswordCapture, signInCapture } from "../Controller/user.controller.js";
+import { uploaderDocuments, uploaderProfile } from "../utils/multer.js";
 
 const userRouter = Router();
 
@@ -12,7 +12,9 @@ userRouter.get("/profile",authenticate("authJWT"), profileCall);
 userRouter.post("/logout", logoutCapture);
 userRouter.post("/forgot-password", forgotPassCapture);
 userRouter.post("/reset-password", resetPasswordCapture);
-userRouter.put("/premium/:uid", authenticate("authJWT"), changeRoleCapture)
-userRouter.post("/pic",uploaderProfile.single("avatar"), picTest)
+userRouter.put("/premium/:uid", authenticate("authJWT"), changeRoleCapture);
+userRouter.post("/:uid/documents", uploaderDocuments.fields([{name:"identificacion",maxCount:1}, {name:"domicilio",maxCount:1},{name:"estadoDeCuenta",maxCount:1}]), documents);
+//ruta test
+userRouter.post("/pic", authenticate("authJWT"), uploaderProfile.single("avatar"), picTest);
 
 export{userRouter};

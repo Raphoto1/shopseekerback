@@ -80,6 +80,17 @@ export const chkUserMail = async (email) => {
   }
 }
 
+export const chkUserId = async (uId) => {
+  const userToChk = await userManager.getUser(uId);
+  if (!userToChk) {
+    logger.warning("no existe el usuario");
+    return false
+  } else {
+    logger.info("usuario encontrado")
+    return userToChk
+  }
+}
+
 export const updatePass = async (email, newPassword) => {
   console.log(email);
   const userData = await chkUserMail(email);
@@ -111,4 +122,9 @@ export const updateRole = async (uid) => {
   }
   console.log(userRole);
   return userToUpdate
+}
+
+export const updateUserDocuService = async (uId, dbKey, dataUpdate) => {
+  const response = await userManager.updateUserDocu(uId,dbKey, dataUpdate);
+  return response
 }
