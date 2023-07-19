@@ -66,7 +66,6 @@ export const login = async (email, password) => {
   return userToLog;
 };
 
-
 export const updateLastConnection = async (uId) => {
   const today = new Date()
   return await userManager.updateUserLastConn(uId, today);
