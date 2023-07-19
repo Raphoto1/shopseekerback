@@ -38,6 +38,7 @@ export const signIn = async (first_name, last_name, email, age, password) => {
       password: createHash(password),
       role,
       cart: await createCart(),
+      last_connection: new Date(),
     };
     const userCreated = await userManager.addUser(newUser);
     
@@ -49,6 +50,9 @@ export const login = async (email, password) => {
   const userToLog = await userManager.getUserByEmail(email);
   if (userToLog) {
     if (validatePassword(password, userToLog)) {
+      const today = new Date()
+      const updateLastConnection = await userManager.updateUserLastConn(userToLog._id, today);
+      console.log(updateLastConnection);
       logger.info("si existe el correo")
       return userToLog;
     } else {
@@ -61,6 +65,12 @@ export const login = async (email, password) => {
   }
   return userToLog;
 };
+
+
+export const updateLastConnection = async (uId) => {
+  const today = new Date()
+  return await userManager.updateUserLastConn(uId, today);
+}
 
 export const getUserToken = (req, res) => {
   let token = req.cookies[options.server.cookieToken];

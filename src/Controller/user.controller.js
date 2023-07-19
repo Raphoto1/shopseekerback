@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 //importPropio
-import { signIn, login, getUserToken, chkUserMail, updatePass, updateRole, chkUserId, updateUserDocuService } from "../Service/user.service.js";
+import { signIn, login, getUserToken, chkUserMail, updatePass, updateRole, chkUserId, updateUserDocuService, updateLastConnection } from "../Service/user.service.js";
 import { options } from "../config/config.js";
 import {CustomError} from "../Service/Error/customError.service.js"
 import { generateUserErrorInfo } from "../Service/Error/userErrorInfo.js";
@@ -38,7 +38,8 @@ export const signInCapture = async (req, res) => {
       last_name: result.last_name,
       email: result.email,
       role: result.role,
-      isAdmin: isAdmin
+      isAdmin: isAdmin,
+      last_connection: new Date(),
     },
     options.server.secretToken,
     { expiresIn: "24h" }
@@ -67,7 +68,8 @@ export const loginCapture = async (req, res) => {
         cart:result.cart,
         email: result.email,
         role: result.role,
-        isAdmin: isAdmin
+        isAdmin: isAdmin,
+        last_connection: new Date(),
       },
       options.server.secretToken,
       { expiresIn: "24h" }
@@ -82,11 +84,13 @@ export const loginCapture = async (req, res) => {
 
 export const profileCall = async (req, res) => {
   const userInfo = req.user
-  console.log(userInfo);
+  logger.info(userInfo)
   res.json({ status: "success", payLoad: userInfo });
 };
 
 export const logoutCapture = async (req, res, next) => {
+  const userInfo = req.user
+  await updateLastConnection(userInfo._id)
   res
   .clearCookie(`${options.server.cookieToken}`)
   .redirect(303,"/login");

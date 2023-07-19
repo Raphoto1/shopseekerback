@@ -9,7 +9,7 @@ const userRouter = Router();
 userRouter.post("/signin",signInCapture);
 userRouter.post("/login", loginCapture);
 userRouter.get("/profile",authenticate("authJWT"), profileCall);
-userRouter.post("/logout", logoutCapture);
+userRouter.post("/logout",authenticate("authJWT"), logoutCapture);
 userRouter.post("/forgot-password", forgotPassCapture);
 userRouter.post("/reset-password", resetPasswordCapture);
 userRouter.put("/premium/:uid", authenticate("authJWT"), changeRoleCapture);

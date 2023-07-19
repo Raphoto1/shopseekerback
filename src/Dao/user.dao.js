@@ -35,8 +35,13 @@ class UserMongoDao {
   //actualizar user
   async updateUserDocu(uId,dbKey, dataUpdate) {
     console.log(dataUpdate);
-    
     const update = await userModel.findByIdAndUpdate(uId, { "documents": dataUpdate });
+    return update
+  }
+
+  //actualizar las connection
+  async updateUserLastConn(uId, dataUpdate) {
+    const update = await userModel.findByIdAndUpdate(uId, { "last_connection": dataUpdate });
     return update
   }
 
