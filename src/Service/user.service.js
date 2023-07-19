@@ -11,6 +11,7 @@ import { logger } from "../utils/logger.js";
 
 
 
+
 const userManager = new UserMongoDao();
 
 export const signIn = async (first_name, last_name, email, age, password) => {
@@ -109,19 +110,30 @@ export const updateRole = async (uid) => {
   //verificar que el ususario existe
   const userToUpdate = await userManager.getUser(uid)
   const userRole = userToUpdate.role
-  if (userRole == "user") {
-    console.log("eres user y cambiaras a premium");
-    const updateRoleUser = await userManager.updateUserRole(uid, "premium")
-    return updateRoleUser
-  } else if (userRole == "premium") {
-    console.log("eres premium y cambiaras a user");
-    const updateRolePremium = await userManager.updateUserRole(uid, "user")
-    return updateRolePremium
+  const userDocuments = userToUpdate.documents
+  const chkDocs = userDocuments.filter(docu => docu.reference == null)
+  console.log(chkDocs);
+  let response = ""
+  if (chkDocs.length >= 1) {
+    response = `faltan los documentos`
+    throw new Error("debes tener todos los documentos para realizar esta accion")
   } else {
-    console.log("debes ser admin y no puedes cambiar a premium o user");
+    response = "todos los documentos cargados"
+    if (userRole == "user") {
+      console.log("eres user y cambiaras a premium");
+      const updateRoleUser = await userManager.updateUserRole(uid, "premium")
+      return updateRoleUser
+    } else if (userRole == "premium") {
+      console.log("eres premium y cambiaras a user");
+      const updateRolePremium = await userManager.updateUserRole(uid, "user")
+      return updateRolePremium
+    } else {
+      console.log("debes ser admin y no puedes cambiar a premium o user");
+    }
+    console.log(userRole);
+    return userToUpdate
   }
-  console.log(userRole);
-  return userToUpdate
+ 
 }
 
 export const updateUserDocuService = async (uId, dbKey, dataUpdate) => {
