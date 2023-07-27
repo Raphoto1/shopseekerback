@@ -164,8 +164,8 @@ export const deleteOldUsers = async () => {
   const mediaHora = new Date(today.getTime() - (60 * 60 * 1000));
   const filtrarUsuarios = users.filter(user => user.last_connection >= mediaHora);
   console.log(filtrarUsuarios);
-  const idsToDelete = filtrarUsuarios.map(user => async()=>{
-    await userManager.deleteUser(user._id);
+  const idsToDelete = await filtrarUsuarios.map(user => {
+    userManager.deleteUser(user._id);
   });
   console.log(idsToDelete);
   return idsToDelete
