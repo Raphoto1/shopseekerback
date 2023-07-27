@@ -145,6 +145,19 @@ export const updateRole = async (uid) => {
  
 }
 
+export const usersListFiltered = async () => {
+  const users = await userManager.getAllUsers();
+  const usersFiltered = users.map(user => {
+    return {
+      email: user.email,
+      name: user.first_name,
+      role: user.role
+    }
+  })
+  console.log(usersFiltered);
+  return usersFiltered
+}
+
 export const updateUserDocuService = async (uId, dbKey, dataUpdate) => {
   const response = await userManager.updateUserDocu(uId,dbKey, dataUpdate);
   return response

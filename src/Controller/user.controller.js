@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 //importPropio
-import { signIn, login, getUserToken, chkUserMail, updatePass, updateRole, chkUserId, updateUserDocuService, updateLastConnection } from "../Service/user.service.js";
+import { signIn, login, getUserToken, chkUserMail, updatePass, updateRole, chkUserId, updateUserDocuService, updateLastConnection, usersListFiltered } from "../Service/user.service.js";
 import { options } from "../config/config.js";
 import {CustomError} from "../Service/Error/customError.service.js"
 import { generateUserErrorInfo } from "../Service/Error/userErrorInfo.js";
@@ -87,6 +87,12 @@ export const profileCall = async (req, res) => {
   logger.info(userInfo)
   res.json({ status: "success", payLoad: userInfo });
 };
+
+export const listUsers = async (req, res) => {
+  const users = await usersListFiltered()
+  console.log(users);
+  res.json({status:"success sisisis",payload:users})
+}
 
 export const logoutCapture = async (req, res, next) => {
   const userInfo = req.user

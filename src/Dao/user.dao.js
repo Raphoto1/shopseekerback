@@ -14,6 +14,12 @@ class UserMongoDao {
     }
   }
 
+  //getAllUsers
+  async getAllUsers() {
+    const users = await userModel.find();
+    return users
+  }
+
   //getUser By Id
   async getUser(userId) {
     const userById = await userModel.findById(userId);
