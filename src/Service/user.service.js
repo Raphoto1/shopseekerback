@@ -158,6 +158,19 @@ export const usersListFiltered = async () => {
   return usersFiltered
 }
 
+export const deleteOldUsers = async () => {
+  const users = await userManager.getAllUsers();
+  const today = new Date();
+  const mediaHora = new Date(today.getTime() - (60 * 60 * 1000));
+  const filtrarUsuarios = users.filter(user => user.last_connection >= mediaHora);
+  console.log(filtrarUsuarios);
+  const idsToDelete = filtrarUsuarios.map(user => async()=>{
+    await userManager.deleteUser(user._id);
+  });
+  console.log(idsToDelete);
+  return idsToDelete
+}
+
 export const updateUserDocuService = async (uId, dbKey, dataUpdate) => {
   const response = await userManager.updateUserDocu(uId,dbKey, dataUpdate);
   return response
