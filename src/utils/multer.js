@@ -19,7 +19,6 @@ const filterExistance = (req,file,cb) => {
     !isValid ? cb(null, false) : cb(null,true);
 }
 
-
 //profile pic Upload
 const profilePicStorage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -39,7 +38,6 @@ const documentStorage = multer.diskStorage({
         cb(null, `${req.params.uid}-document-${file.originalname}`)
     }
 });
-
 
 export const uploaderDocuments = multer({ storage: documentStorage});
 export const uploaderProfile = multer({ storage: profilePicStorage });
