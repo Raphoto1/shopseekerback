@@ -1,6 +1,6 @@
 <h1>signin</h1>
 
-<form action="/api/user/signin" method="post">
+<form action="/api/user/signin" method="post" enctype="multipart/form-data">
     <label for="first_name">firstname</label>
     <input type="text" name="first_name">
     <br>
@@ -16,5 +16,8 @@
     <label for="password">password</label>
     <input type="password" name="password">
     <br>
+    <input type="file" placeholder="avatar" name="avatar">
+    <br>
     <input type="submit" value="submit">
+    
 </form>

@@ -3,18 +3,15 @@ import jwt from "jsonwebtoken";
 
 //import propio
 import UserMongoDao from "../Dao/user.dao.js";
-import { createCart } from "./cart.service.js";
+import { createCart, deleteCart } from "./cart.service.js";
 import { options } from "../config/config.js";
 import { createHash } from "../utils/utils.js";
 import { validatePassword } from "../utils/utils.js";
 import { logger } from "../utils/logger.js";
 
-
-
-
 const userManager = new UserMongoDao();
 
-export const signIn = async (first_name, last_name, email, age, password) => {
+export const signIn = async (first_name, last_name, email, age, password, avatar) => {
   
   //confirmar que el correo no exista
   const chkEmail = await userManager.getUserByEmail(email);
@@ -39,6 +36,7 @@ export const signIn = async (first_name, last_name, email, age, password) => {
       role,
       cart: await createCart(),
       last_connection: new Date(),
+      avatar
     };
     const userCreated = await userManager.addUser(newUser);
     
@@ -166,6 +164,7 @@ export const deleteOldUsers = async () => {
   console.log(filtrarUsuarios);
   const idsToDelete = await filtrarUsuarios.map(user => {
     userManager.deleteUser(user._id);
+    deleteCart(user.cart)
   });
   console.log(idsToDelete);
   return idsToDelete

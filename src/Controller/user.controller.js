@@ -14,8 +14,9 @@ import { logger } from "../utils/logger.js";
 
 export const signInCapture = async (req, res) => {
   const { first_name, last_name, email, age, password } = req.body;
-  const avatar = req.files[`avatar`]
+  const avatarCatch = req.files["avatar"]?.[0] || null
   //EError
+  const avatarToSend = avatarCatch ? avatarCatch.filename : "";
   if (!first_name || !last_name || !email || !age || !password) {
     CustomError.createError({
       name:"User create error",
@@ -26,7 +27,7 @@ export const signInCapture = async (req, res) => {
   }
   //preguntar por la seguridad al pasar esto a service
   //pasar data a service
-  const result = signIn(first_name, last_name, email, age, password);
+  const result = await signIn(first_name, last_name, email, age, password, avatarToSend);
   //se crea isAdmin para hbs
   let isAdmin = false;
     if (result.role === "admin") {isAdmin = true}
@@ -44,7 +45,7 @@ export const signInCapture = async (req, res) => {
     options.server.secretToken,
     { expiresIn: "24h" }
   );
-  res.cookie(options.server.cookieToken, token, { httpOnly: true });
+  res.cookie(options.server.cookieToken, token, { httpOnly: true, sameSite: "none", secure: true })
   res.json({ status: "success", payLoad: result });
 };
 
@@ -196,7 +197,10 @@ export const documents = async (req, res) => {
 
 export const picTest = async (req, res) => {
   try {
-    res.json({status: "success"})
+    const email = req.body
+    const avatar = req.files["avatar"]?.[0]
+    console.log(avatar);
+    res.json({ status: "success", message: avatar.filename})
   } catch (error) {
     res.send(error.message)
   }

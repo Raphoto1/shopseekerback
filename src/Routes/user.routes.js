@@ -6,7 +6,7 @@ import { uploaderDocuments, uploaderProfile } from "../utils/multer.js";
 const userRouter = Router();
 
 //rutas users
-userRouter.post("/signin",signInCapture);
+userRouter.post("/signin", uploaderProfile.fields([{name: "avatar",maxCount:1}]) ,signInCapture);
 userRouter.post("/login", loginCapture);
 userRouter.get("/profile",authenticate("authJWT"), profileCall);
 userRouter.post("/logout",authenticate("authJWT"), logoutCapture);
@@ -17,6 +17,6 @@ userRouter.post("/:uid/documents", uploaderDocuments.fields([{ name: "identifica
 userRouter.get("/", listUsers);
 userRouter.delete("/", deleteOldUsersCapture);
 //ruta test
-userRouter.post("/pic", authenticate("authJWT"), uploaderProfile.single("avatar"), picTest);
+userRouter.post("/pic", uploaderProfile.fields([{name: "avatar",maxCount:1}]), picTest);
 
 export{userRouter};
