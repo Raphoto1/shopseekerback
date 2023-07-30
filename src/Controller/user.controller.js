@@ -147,11 +147,12 @@ export const resetPasswordCapture = async (req,res) => {
 }
 
 export const changeRoleCapture = async (req, res) => {
-  const uid = req.params.uid
   try {
+    const {uid} = req.body;
     const RoleChange = await updateRole(uid);
     res.json({ status: "success", payLoad: RoleChange });
   } catch (error) {
+    console.log(error);
     res.send(error.message)
   }
   

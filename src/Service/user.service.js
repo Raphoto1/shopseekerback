@@ -45,6 +45,7 @@ export const signIn = async (first_name, last_name, email, age, password, avatar
 };
 
 export const login = async (email, password) => {
+  console.log(email);
   const userToLog = await userManager.getUserByEmail(email);
   if (userToLog) {
     if (validatePassword(password, userToLog)) {
@@ -122,6 +123,7 @@ export const updateRole = async (uid) => {
   console.log(chkDocs);
   let response = ""
   if (chkDocs.length >= 1) {
+    console.log('problema con docus');
     response = `faltan los documentos`
     throw new Error("debes tener todos los documentos para realizar esta accion")
   } else {

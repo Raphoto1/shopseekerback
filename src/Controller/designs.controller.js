@@ -25,14 +25,18 @@ export const getDesignByIdCapture = async (req, res) => {
 export const addDesignCapture = async (req, res) => {
   try {
     //captura de data de design
-    const code = Number(req.body.code);
-    const title = req.body.title;
-    const description = req.body.description;
-    const category = req.body.category;
-    const price = Number(req.body.price);
-    const stock = Number(req.body.stock);
-    const shops = req.body.shops;
-    const photos = req.body.photos;
+    const { title, code, description, category, price, stock, shops, shopsname } = req.body;
+    const imageCatch = req.files['image']?.[0] || null;
+    const imageToSend = imageCatch ? imageCatch.filename : "";
+    console.log(imageCatch);
+    //empaquetar shops
+    let shopsPack = [];
+    shopsPack = shopsname.map((e, index) => {
+      var obj = {};
+      obj[e] = shops[index];
+      return obj;
+    })
+    console.log(shopsPack);
     //capturar data del user
     const userData = req.user;
     const owner = userData._id;
@@ -46,7 +50,7 @@ export const addDesignCapture = async (req, res) => {
       });
     }
     //envio
-    const result = await addDesignPack(code, title, description, category, price, stock, shops, photos, owner);
+    const result = await addDesignPack(code, title, description, category, price, stock, shopsPack, imageToSend, owner);
     res.json({ status: "success", payLoad: result });
   } catch (error) {
     res.status(404).send({ error: `error desde controller${error}` });

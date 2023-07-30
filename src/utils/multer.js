@@ -39,5 +39,15 @@ const documentStorage = multer.diskStorage({
     }
 });
 
+const designsStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, "/multer/designs"))
+    },
+    filename: function (req, file, cb) {
+        cb(null, `${req.user._id}-design-${file.originalname}`)
+    }
+})
+
 export const uploaderDocuments = multer({ storage: documentStorage});
 export const uploaderProfile = multer({ storage: profilePicStorage });
+export const uploaderDesigns = multer({ storage: designsStorage });

@@ -2,7 +2,7 @@ let form = document.querySelector("form");
 
 form.onsubmit = async (e) => {
   e.preventDefault();
-  let formData = new FormData(form);
+  console.log(formData);
   let respuesta = await fetch("http://localhost:8080/api/user/signin", {
     method: "POST",
     credentials: "include",
