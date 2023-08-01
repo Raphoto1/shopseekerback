@@ -37,3 +37,18 @@ export const sendRecoveryPass = async (userEmail, token) => {
         
     })
 }
+
+export const sendDeleteConfirm = async (userEmail, desId) => {
+    await transporter.sendMail({
+        from: options.gmail.emailAdmin,
+        to: userEmail,
+        subject: "diseño eliminado",
+        html:`
+            <div>
+                <h2>Has borrado el diseño con el id ${desId}</h2>
+                <p>Recuerda que esta accion no se puede reversar</p>
+                
+            </div>
+        `
+    })
+}

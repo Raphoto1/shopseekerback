@@ -5,6 +5,7 @@ import { generateDesignsErrorInfo } from "../Service/Error/designsErrorInfo.js";
 import { EError } from "../enums/EError.js";
 import { getUserToken } from "../Service/user.service.js";
 import { logger } from "../utils/logger.js";
+import { sendDeleteConfirm } from "../utils/email.js";
 
 export const getAllDesigns = async (req, res) => {
   const results = await getDesigns();
@@ -99,6 +100,7 @@ export const deleteDesignCapture = async (req, res) => {
       if (chkDesignOwner == userId) {
         console.log("se borra");
         const result = await deleteDesign(designId, userId);
+        await sendDeleteConfirm(user.email, designId);
         res.json({ status: "success", payLoad: result });
       } else {
         console.log("no se puede borrar porque no te pertenece este diseño");

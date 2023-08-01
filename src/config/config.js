@@ -18,6 +18,9 @@ const SECRET_TOKEN = process.env.SECRET_TOKEN;
 const SECRET_TOKEN_MAIL = process.env.SECRET_TOKEN_MAIL;
 const EMAIL_ADMIN = process.env.EMAIL_ADMIN;
 const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
+const HOST = process.env.HOST;
+const USER_HOST = process.env.USER_HOST;
+const PASS_HOST = process.env.PASS_HOST;
 
 export const options = {
     server:{
@@ -33,5 +36,10 @@ export const options = {
         emailToken: SECRET_TOKEN_MAIL,
         emailAdmin: EMAIL_ADMIN,
         emailPass:EMAIL_PASSWORD
+    },
+    host: {
+        host: HOST,
+        hostUser: USER_HOST,
+        hostPass: PASS_HOST
     }
 }

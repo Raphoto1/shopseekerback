@@ -2,6 +2,7 @@ import multer from "multer";
 import path from "path";
 import { __dirname, __filename } from "./utils.js";
 import fs from "fs"
+import { options } from "../config/config.js";
 
 //filtro de archivos
 const validFields = (body) => {
@@ -39,14 +40,16 @@ const documentStorage = multer.diskStorage({
     }
 });
 
+//design upload local
 const designsStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, "/multer/designs"))
+        cb(null, path.join(__dirname, "../../public/images/designs"))
     },
     filename: function (req, file, cb) {
         cb(null, `${req.user._id}-design-${file.originalname}`)
     }
 })
+
 
 export const uploaderDocuments = multer({ storage: documentStorage});
 export const uploaderProfile = multer({ storage: profilePicStorage });
