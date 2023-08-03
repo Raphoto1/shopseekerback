@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  deleteDesign,
   forgotPassword,
   renderAddDesign,
   renderCart,
@@ -7,9 +8,12 @@ import {
   renderDesigns,
   renderIndex,
   renderLogin,
+  renderMyShop,
   renderProfile,
   renderSignin,
   resetPass,
+  updateDesignText,
+  updateRole,
 } from "../Controller/web.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { authorize } from "../middlewares/authorize.js";
@@ -25,10 +29,14 @@ webRouter.get("/cart", authenticate("authJWT"),renderCart);
 webRouter.get("/designs/:pid");
 webRouter.get("/cart/:cid");
 webRouter.get("/chat", authenticate("authJWT"), authorize("user"), renderChat);
-webRouter.get("/addDesign", authenticate("authJWT"), authorize("admin"), renderAddDesign);
+webRouter.get("/addDesign", authenticate("authJWT"), authorize(["admin", "premium"]), renderAddDesign);
 webRouter.get("/purchase");
 webRouter.get("/forgot-password", forgotPassword);
 webRouter.get("/reset-password", resetPass);
+webRouter.get("/roleUpdate", updateRole);
+webRouter.get("/updateDesign", updateDesignText);
+webRouter.get("/deleteDes", deleteDesign);
+webRouter.get("/myshop/:uId", renderMyShop);
 
 //rutas vistas autenticacion
 

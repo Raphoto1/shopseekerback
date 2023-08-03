@@ -12,6 +12,11 @@ export const getDesignById = async(designId) => {
   return design;
 };
 
+export const getDesignsByOwner = async (owner) => {
+  const designs = await designManager.getDesignsByOwner(owner);
+  return designs
+}
+
 export const addDesignPack = async (
   code,
   title,

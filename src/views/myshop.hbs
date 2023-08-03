@@ -1,10 +1,10 @@
 <h1>designs</h1>
-{{userCart}}
  <div id="designsList">
+  {{designs}}
     <ul>
-      {{#each designs.docs}}
+      {{#each designs}}
         <br />
-        <li>Titulo:{{title}}, Id:{{id}}, Precio{{price}}, Stock:{{stock}}</li>
+        <li>Titulo:{{this}}, Id:{{id}}, Precio{{price}}, Stock:{{stock}}</li>
         <li>{{photos}}</li>
         <img src="/images/designs/{{photos}}" alt="">
         <a href="http://localhost:8080/designDetail/?pId={{id}}">Check

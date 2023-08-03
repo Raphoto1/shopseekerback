@@ -23,7 +23,7 @@ const filterExistance = (req,file,cb) => {
 //profile pic Upload
 const profilePicStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, "/multer/users/images"))
+        cb(null, path.join(__dirname, "../../public/users/avatar"))
     },
     filename: function (req, file, cb) {
         cb(null, `${req.body.email}-profile-${file.originalname}`)
@@ -33,7 +33,7 @@ const profilePicStorage = multer.diskStorage({
 //documents upload
 const documentStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, "/multer/users/documents"))
+        cb(null, path.join(__dirname, "../../public/users/documents"))
     },
     filename: function (req, file, cb) {
         cb(null, `${req.params.uid}-document-${file.originalname}`)

@@ -58,6 +58,15 @@ class DesignMongoDao {
     }
   }
 
+  async getDesignsByOwner(ownerId) {
+    try {
+      const designsToCheck = await designModel.find({ owner: [ownerId] }).lean()
+      return designsToCheck
+    } catch (error) {
+      return error
+    }
+  }
+
   //add
   async addDesign(dataDesLoad) {
     try {

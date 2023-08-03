@@ -1,5 +1,5 @@
 //imports propios
-import { getDesigns, addDesignPack, deleteDesign, getDesignById, updateDesign } from "../Service/designs.service.js";
+import { getDesigns, addDesignPack, deleteDesign, getDesignById, updateDesign, getDesignsByOwner } from "../Service/designs.service.js";
 import { CustomError } from "../Service/Error/customError.service.js";
 import { generateDesignsErrorInfo } from "../Service/Error/designsErrorInfo.js";
 import { EError } from "../enums/EError.js";
@@ -11,6 +11,12 @@ export const getAllDesigns = async (req, res) => {
   const results = await getDesigns();
   res.json({ status: "success", payLoad: results });
 };
+
+export const getDesignsByOwnerCapture = async (req, res) => {
+  const {uId} = req.params
+  const result = await getDesignsByOwner(uId)
+  res.json({status:"success", payLoad:result})
+}
 
 export const getDesignsFiltered = async (req, res) => {
   const { limit, page, sortQ, queryKey, queryParam } = req.params;
@@ -60,17 +66,22 @@ export const addDesignCapture = async (req, res) => {
 
 export const updateDesignCapture = async (req, res) => {
   try {
-    const desId = req.body.desId;
-    const value = req.body.value;
-    const data = req.body.data;
+    const {desId, value, data} = req.body
     const user = req.user;
+    let imageCatch = req.files['image']?.[0] || null;
+    let imageToSend = imageCatch ? imageCatch.filename : "";
+    let dataToSend = data;
+    //se revisa si se esta enviando una foto o un dato
+    if (value === "photos") {
+      dataToSend = imageToSend
+    };
     //se revisa si es premium para limitar
     if (user.role === "premium") {
       const userId = user._id;
-      const designToChk = await getDesignById(designId);
+      const designToChk = await getDesignById(desId);
       const chkDesignOwner = designToChk.owner;
       if (chkDesignOwner == userId) {
-        const result = await updateDesign(desId, value, data);
+        const result = await updateDesign(desId, value, dataToSend);
         res.json({ status: "success", payLoad: result });
       } else {
         console.log("no se puede actualizar porque no te pertenece este diseño");
@@ -89,7 +100,7 @@ export const deleteDesignCapture = async (req, res) => {
   try {
     //captura de datos
     const user = req.user;
-    const designId = req.body.designId;
+    const {designId} = req.body;
     req.logger.warning(`diseño a borrar${designId}`);
     //filtrar si el dueño es premium a partir de su propiedad 64925e5e4b9b5074d4c8b183
     if (user.role === "premium") {

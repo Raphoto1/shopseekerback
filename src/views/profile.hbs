@@ -3,6 +3,7 @@
     <h2>hola {{userData.first_name}} {{userData.last_name}}</h2>
     <h3>te registraste con el correo {{userData.email}}</h3>
     <h4>tu rol en la app es {{userData.role}}</h4>
+    <h2>la url para tu tienda es http://localhost:8080/myshop/{{userData._id}}</h2>
     {{#if userData.isAdmin}}
         <h1>eres admin y puedes ver esto</h1>
         <a href="/adddesign">addDesign</a>
