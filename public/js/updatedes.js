@@ -36,7 +36,7 @@ form.onsubmit = async (e) => {
     dataToSend[key] = value;
   }
   console.log(dataToSend);
-  let respuesta = await fetch("http://localhost:8080/api/designs/", {
+  let respuesta = await fetch("/api/designs/", {
     method: "PUT",
     credentials: "include",
     body: formData,
