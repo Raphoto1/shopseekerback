@@ -63,6 +63,7 @@ class UserMongoDao {
   //modificar user
 
   async updateUserRole(userId, dataUpdate) {
+    console.log(userId, dataUpdate);
     const update = await userModel.findByIdAndUpdate(userId, { role: dataUpdate })
     return update
   }

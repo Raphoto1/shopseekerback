@@ -36,19 +36,36 @@ async function addDesignToCart (desId) {
     return pushToCart
 }
 
-function addToCart (cart,desId){
-    const pushToCart = fetch(`/api/cart/${cart}/design/${desId}`, {method:"put"})
+async function addToCart (cart,desId){
+    const pushToCart = await fetch(`/api/cart/${cart}/design/${desId}`, {method:"put"})
     .then((res) => res.json())
     .then((data) => data);
-    return pushToCart
+    console.log(pushToCart);
+    if (pushToCart.status=="success") {
+        alert("se ha agregado correctamente al carrito");
+    } else if (pushToCart.status === "failed") {
+        alert(`ha fallado el agregar el diseño, por la siguiente razon: ${pushToCart.payLoad}`)
+    }
 }
 
-function purchaseCart (cart){
-    console.log(cart);
-    const purchase = fetch(`/api/cart/${cart}/purchase`, {method:"post"})
+async function purchaseCart (cart){
+    const purchase = await fetch(`/api/cart/${cart}/purchase`, {method:"POST", credentials:"include"})
     .then((res) => res.json())
-    .then((data) => data);
-    return purchase
+        .then((data) => data);
+    console.log(purchase);
+    if (purchase.status) {
+        alert("aqui saldria el metodo de pago")
+    }
+}
+
+async function clearCart(cart) {
+    const clear = await fetch(`/api/cart/clear/${cart}`, {method:"Delete", credentials:"include"})
+    .then((res) => res.json())
+        .then((data) => data);
+    console.log(clear);
+    if (clear.status == "success") {
+        alert("carrito limpio")
+    }
 }
 
 // Handlebars.registerHelper('if_eq', function(a, b, opts) {

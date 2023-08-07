@@ -13,6 +13,6 @@ cartRouter.delete("/clear/:cartId", clearCartCapture);
 cartRouter.delete("/:cartId/design/:desId", deleteDesignFromCartCapture);
 cartRouter.delete("/:cartId", authenticate("authJWT"), authorize("admin"), deleteCartCapture);
 //purchase y ticket
-cartRouter.post("/:cartId/purchase", authenticate("authJWT"), authorize("user"), cartPurchaseCapture);
+cartRouter.post("/:cartId/purchase", authenticate("authJWT"), authorize(["user", "premium"]), cartPurchaseCapture);
 
 export {cartRouter};

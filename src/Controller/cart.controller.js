@@ -43,14 +43,18 @@ export const deleteCartCapture = async (req, res) => {
 };
 
 export const addDesignToCartCapture = async (req, res) => {
-  const cartId = req.params.cartId;
-  const desId = req.params.desId;
-  const quantity = req.body.quantity;
-  const user = req.user;
-  const desOwner = user._id
+  try {
+    const cartId = req.params.cartId;
+    const desId = req.params.desId;
+    const quantity = req.body.quantity;
+    const user = req.user;
+    const desOwner = user._id
+    const result = await addDesignToCart(cartId, desId, desOwner, quantity);
+    res.json({ status: "success", payLoad: result });  
+  } catch (error) {
+    res.json({ status: "failed", payLoad: error.message });
+  }
   
-  const result = await addDesignToCart(cartId, desId, desOwner, quantity);
-  res.json({ status: "success", payLoad: result });
 };
 
 export const deleteDesignFromCartCapture = async (req, res) => {

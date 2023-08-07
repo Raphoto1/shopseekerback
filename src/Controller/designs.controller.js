@@ -35,23 +35,28 @@ export const addDesignCapture = async (req, res) => {
     const { title, code, description, category, price, stock, shops, shopsname } = req.body;
     const imageCatch = req.files['image']?.[0] || null;
     const imageToSend = imageCatch ? imageCatch.filename : "";
-    console.log(imageCatch);
     //empaquetar shops
     let shopsPack = [];
-    shopsPack = shopsname.map((e, index) => {
-      var obj = {};
-      obj[e] = shops[index];
-      return obj;
-    })
+    if (!shops || !shopsname) {
+      console.log("no llegaron shops");
+      shopsPack = [];
+    } else {
+      shopsPack = shopsname.map((e, index) => {
+        var obj = {};
+        obj[e] = shops[index];
+        return obj;
+      })  
+    }
+    
     console.log(shopsPack);
     //capturar data del user
     const userData = req.user;
     const owner = userData._id;
     //EError
-    if (!code || !title || !price || !stock || !shops) {
+    if (!code || !title || !price || !stock) {
       CustomError.createError({
         name: "design create error",
-        cause: generateDesignsErrorInfo(code, title, price, stock, shops),
+        cause: generateDesignsErrorInfo(code, title, price, stock),
         message: "Error al crear el diseño",
         errorCode: EError.INVALID_PARAMS,
       });
@@ -66,7 +71,7 @@ export const addDesignCapture = async (req, res) => {
 
 export const updateDesignCapture = async (req, res) => {
   try {
-    const {desId, value, data} = req.body
+    const { desId, value, data } = req.body
     const user = req.user;
     let imageCatch = req.files['image']?.[0] || null;
     let imageToSend = imageCatch ? imageCatch.filename : "";
@@ -75,6 +80,10 @@ export const updateDesignCapture = async (req, res) => {
     if (value === "photos") {
       dataToSend = imageToSend
     };
+    if (value === "stock" || value=== "price") {
+      dataToSend = Number(dataToSend)
+    }
+    console.log(dataToSend);
     //se revisa si es premium para limitar
     if (user.role === "premium") {
       const userId = user._id;

@@ -68,8 +68,13 @@ export const renderProfile = async (req, res) => {
     //problemas al extraer desde la funcion de user.controller
     let token = req.cookies[options.server.cookieToken];
   passport.authenticate("jwt", { session: false });
-  const userData = jwt.verify(token, options.server.secretToken);
-    res.render("profile", {userData});
+    const userData = jwt.verify(token, options.server.secretToken);
+    console.log(userData);
+    let isPremium=false
+    if (userData.role== "premium") {
+      isPremium = true
+    }
+    res.render("profile", {userData, isPremium});
   } catch (error) {
     console.log(error);
     res.send(`<div>Hubo un error al cargar esta vista</div>`);

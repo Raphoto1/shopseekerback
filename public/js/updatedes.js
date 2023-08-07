@@ -16,15 +16,26 @@ function addPhoto() {
     inputToAdd.id = "image";
     dataContainer.appendChild(inputToAdd);
     
-  } else {
+  } else if (category.value === "stock" || category.value === "price") {
+    let imageInput = document.getElementById("image");
+    imageInput ? dataContainer.removeChild(imageInput) : null;
+    let textInput = document.getElementById("data");
+    textInput? dataContainer.removeChild(textInput):null
+    let inputToAdd = document.createElement("input");
+    inputToAdd.type = "number";
+    inputToAdd.name = "data";
+    inputToAdd.id = "data";
+    dataContainer.appendChild(inputToAdd);
+  }else {
     let imageInput = document.getElementById("image");
     imageInput ? dataContainer.removeChild(imageInput) : null;
     let valueToChk = document.getElementById("data");
+    valueToChk? dataContainer.removeChild(valueToChk):null;
     let inputToAdd = document.createElement("input");
     inputToAdd.type = "text";
     inputToAdd.name = "data";
     inputToAdd.id = "data";
-    valueToChk? console.log("ya estaba"):dataContainer.appendChild(inputToAdd);
+    dataContainer.appendChild(inputToAdd);
   }
 }
 
@@ -43,6 +54,10 @@ form.onsubmit = async (e) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
+      if (data.status=="success") {
+        alert("modificado correctamente")
+      } else {
+        alert(`no se ha logrado modificar por la siguiente razon:${data.message}`)
+      }
     });
 };

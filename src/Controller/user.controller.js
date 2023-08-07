@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 //importPropio
-import { signIn, login, getUserToken, chkUserMail, updatePass, updateRole, chkUserId, updateUserDocuService, updateLastConnection, usersListFiltered, deleteOldUsers } from "../Service/user.service.js";
+import { signIn, login, getUserToken, chkUserMail, updatePass, updateRole, chkUserId, updateUserDocuService, updateLastConnection, usersListFiltered, deleteOldUsers, easyPremium } from "../Service/user.service.js";
 import { options } from "../config/config.js";
 import {CustomError} from "../Service/Error/customError.service.js"
 import { generateUserErrorInfo } from "../Service/Error/userErrorInfo.js";
@@ -155,7 +155,39 @@ export const changeRoleCapture = async (req, res) => {
     console.log(error);
     res.send(error.message)
   }
-  
+}
+
+export const rolePremiumEasy = async (req, res) => {
+  try {
+    const userInfo = req.user
+    logger.info(userInfo._id);
+    const roleUpdate = await easyPremium(userInfo._id, userInfo.role);
+    const result = await chkUserMail(userInfo.email);
+     //se crea isAdmin para hbs
+     let isAdmin = false;
+     if (result.role === "admin") {isAdmin = true}
+     // token para jwt
+     const token = jwt.sign(
+       {
+         _id: result._id,
+         first_name: result.first_name,
+         last_name: result.last_name,
+         cart:result.cart,
+         email: result.email,
+         role: result.role,
+         isAdmin: isAdmin,
+         last_connection: new Date(),
+       },
+       options.server.secretToken,
+       { expiresIn: "24h" }
+     );
+     res
+       .cookie(options.server.cookieToken, token, { httpOnly: true, sameSite: "none", secure: true })
+    .json({ status: "success", payLoad: roleUpdate });
+  } catch (error) {
+    console.log(error);
+    res.send(error.message)
+  }
 }
 
 export const documents = async (req, res) => {

@@ -54,6 +54,7 @@ export const updateDesign = async (desId, value, data) => {
   //revisar que id exista
   const chkDesign = await designManager.chkDesign(desId);
   if (chkDesign) {
+    console.log(data);
     return await designManager.updateDesign(desId, value, data);
   } else {
     return "el diseño no existe";

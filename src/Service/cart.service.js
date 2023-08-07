@@ -27,13 +27,34 @@ export const addDesignToCart = async (cartId, desId, desOwner, quantity) => {
   //confirmar existencia del diseño PENDIENTE
   const designToChk = await designManager.chkDesign(desId);
   const designOwner = designToChk.owner;
+  const stockChk = designToChk.stock;
+  let quantityToAdd = quantity;
+  console.log(quantityToAdd);
+  if (quantity == undefined) {
+    quantityToAdd = 1
+  } else {
+    quantityToAdd
+  }
+  console.log(quantityToAdd);
+  console.log(stockChk);
+  if (stockChk < quantityToAdd) {
+    throw new Error("stock insuficiente")
+  }
   console.log(desOwner);
   if (designOwner == desOwner) {
     console.log("no puedes agregar Tus propios productos");
-    return "no puedes agregar Tus propios productos";
+    throw new Error("no puedes agregar Tus propios productos")
   } else {
-    const designToAdd = cartManager.addDesignToCart(cartId, desId, quantity);
-    return designToAdd;
+    if (designToChk) {
+      const designToAdd = cartManager.addDesignToCart(cartId, desId, quantity);
+      if (designToAdd) {
+        updateDesign(desId, "stock", Number(stockChk - quantityToAdd));
+      }
+      return designToAdd;
+    } else {
+      throw new Error("no existe el diseño")
+    }
+    
   }
 };
 
@@ -53,6 +74,7 @@ export const cartPurchase = async (cartId, userId) => {
   //extraigo los id de los diseños en el carrito
   const designCodes = [];
   await cartToWork.designs.forEach((e) => {
+   
     const designsFiltered = {
       designId: e.design._id,
       designQuanty: e.quantity,

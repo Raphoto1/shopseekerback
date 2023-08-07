@@ -41,5 +41,12 @@ form.onsubmit = async (e) => {
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
+      if (data.status=="success") {
+        alert("dieseño agregado satisfactorialemte");
+        location.reload();
+      } else {
+        alert("intentalo de nuevo, se presento algun problema");
+      }
     });
+  
 };

@@ -81,8 +81,16 @@ class DesignMongoDao {
   //Update
   async updateDesign(desId,value,data){
     try {
-      designToUpdate = await designModel.updateOne({_id:desId}, [{$set:{[value]: `${data}`}}]);
-      return designToUpdate;
+      console.log(value);
+      if (value === "stock" || value=== "price") {
+        console.log("entro asasa");
+        designToUpdate = await designModel.updateOne({ _id: desId }, [{ $set: { [value]: data } }]);
+        return designToUpdate
+      } else {
+        designToUpdate = await designModel.updateOne({_id:desId}, [{$set:{[value]: `${data}`}}]);
+        return designToUpdate;
+        
+      }
     } catch (error) {
       return error
     }
