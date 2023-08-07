@@ -172,7 +172,8 @@ export const usersListFiltered = async () => {
 export const deleteOldUsers = async () => {
   const users = await userManager.getAllUsers();
   const today = new Date();
-  const limitTime = new Date(today.getTime() - 2 * 24 * 60 * 60 * 1000); //1000ms=1sec*60secs*60mins*24horas*2dias
+  const limitTime = new Date(today.getTime() - (2 * 24 * 60 * 60 * 1000)); //1000ms=1sec*60secs*60mins*24horas*2dias
+  console.log(limitTime);
   const filtrarUsuarios = users.filter((user) => user.last_connection >= limitTime);
   console.log(filtrarUsuarios);
   const idsToDelete = await filtrarUsuarios.map((user) => {
