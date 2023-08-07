@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { profileCall } from "./user.controller.js";
 import { options } from "../config/config.js";
 import { getDesigns, getDesignsByOwner } from "../Service/designs.service.js";
-import { getUserToken } from "../Service/user.service.js";
+import { getUserToken, usersListFiltered } from "../Service/user.service.js";
 import { getAllCarts } from "../Service/cart.service.js";
 import { ioSocketLaunch } from "../sockets/ioSockets.sockets.js";
 
@@ -118,6 +118,7 @@ export const resetPass = async (req, res) => {
 export const updateRole = async (req, res) => {
   res.render("roleUpdate");
 }
+
 export const updateDesignText = async (req, res) => {
   let token = req.cookies[options.server.cookieToken];
     passport.authenticate("jwt", { session: false });
@@ -126,6 +127,17 @@ export const updateDesignText = async (req, res) => {
   const designs = await getDesignsByOwner(userId);
   res.render("updateDesign", {designs});
 }
+
 export const deleteDesign = async (req, res) => {
-  res.render("deletedes")
+  res.render("deletedes");
+}
+
+export const usersManager = async (req, res) => {
+  let token = req.cookies[options.server.cookieToken];
+  passport.authenticate("jwt", { session: false });
+  const userData = jwt.verify(token, options.server.secretToken);
+  const user = userData.first_name
+  let users = await usersListFiltered();
+  console.log(users);
+  res.render("usersManager", {users,user});
 }

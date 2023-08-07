@@ -52,3 +52,18 @@ export const sendDeleteConfirm = async (userEmail, desId) => {
         `
     })
 }
+
+export const sendDeletedUser = async (userEmail) => {
+    await transporter.sendMail({
+        from: options.gmail.emailAdmin,
+        to: userEmail,
+        subject: "usuario eliminado eliminado",
+        html:`
+            <div>
+                <h2>Hemos eliminado el usuario ${userEmail} por inactividad</h2>
+                <p>has superado mas de 48 hrs sin actividad en la plataforma</p>
+                
+            </div>
+        `
+    })
+}

@@ -9,7 +9,7 @@ import {CustomError} from "../Service/Error/customError.service.js"
 import { generateUserErrorInfo } from "../Service/Error/userErrorInfo.js";
 import { EError } from "../enums/EError.js";
 import { generateEmailToken, verifyEmailToken } from "../utils/utils.js";
-import { sendRecoveryPass } from "../utils/email.js";
+import { sendDeleteConfirm, sendDeletedUser, sendRecoveryPass } from "../utils/email.js";
 import { logger } from "../utils/logger.js";
 
 export const signInCapture = async (req, res) => {

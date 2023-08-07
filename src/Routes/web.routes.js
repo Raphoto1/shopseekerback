@@ -14,6 +14,7 @@ import {
   resetPass,
   updateDesignText,
   updateRole,
+  usersManager,
 } from "../Controller/web.controller.js";
 import { authenticate } from "../middlewares/authenticate.js";
 import { authorize } from "../middlewares/authorize.js";
@@ -37,6 +38,7 @@ webRouter.get("/roleUpdate", updateRole);
 webRouter.get("/updateDesign", updateDesignText);
 webRouter.get("/deleteDes", deleteDesign);
 webRouter.get("/myshop/:uId", renderMyShop);
+webRouter.get("/usersManager", usersManager);
 
 //rutas vistas autenticacion
 

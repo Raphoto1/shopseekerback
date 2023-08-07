@@ -8,6 +8,7 @@ import { options } from "../config/config.js";
 import { createHash } from "../utils/utils.js";
 import { validatePassword } from "../utils/utils.js";
 import { logger } from "../utils/logger.js";
+import { sendDeletedUser } from "../utils/email.js";
 
 const userManager = new UserMongoDao();
 
@@ -149,6 +150,7 @@ export const usersListFiltered = async () => {
   const users = await userManager.getAllUsers();
   const usersFiltered = users.map(user => {
     return {
+      _id: user._id,
       email: user.email,
       name: user.first_name,
       role: user.role
@@ -161,10 +163,11 @@ export const usersListFiltered = async () => {
 export const deleteOldUsers = async () => {
   const users = await userManager.getAllUsers();
   const today = new Date();
-  const mediaHora = new Date(today.getTime() - (60 * 60 * 1000));
-  const filtrarUsuarios = users.filter(user => user.last_connection >= mediaHora);
+  const limitTime = new Date(today.getTime() - (2*24*60 * 60 * 1000));//1000ms=1sec*60secs*60mins*24horas*2dias
+  const filtrarUsuarios = users.filter(user => user.last_connection >= limitTime);
   console.log(filtrarUsuarios);
   const idsToDelete = await filtrarUsuarios.map(user => {
+    sendDeletedUser(user.email);
     userManager.deleteUser(user._id);
     deleteCart(user.cart)
   });

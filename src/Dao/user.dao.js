@@ -16,7 +16,7 @@ class UserMongoDao {
 
   //getAllUsers
   async getAllUsers() {
-    const users = await userModel.find();
+    const users = await userModel.find().lean();
     return users
   }
 
