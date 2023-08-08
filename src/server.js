@@ -48,7 +48,7 @@ app.use(urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/../../public"));
 //cors config
 app.use(
-  cors( {origin:"https://creativerafa.com/Extras/shopSeeker2/shopseeker2.html", credentials: true})
+  cors( {origin:"https://creativerafa.com", credentials: true})
 );
 app.use(cookieParser());
 
